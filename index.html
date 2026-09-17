@@ -1,3 +1,8 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Furnitur Production</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Piazzolla:ital,opsz,wght@0,8..30,400;0,8..30,500;0,8..30,600;0,8..30,700;1,8..30,500&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+Georgian:wght@400;500;600;700&family=Noto+Sans+Georgian:wght@400;500;600;700&display=swap');
@@ -15,25 +20,6 @@
     --font-body-ka:'Noto Sans Georgian','Manrope',-apple-system,sans-serif;
     --radius:10px;
   }
-  @media (prefers-color-scheme: light){
-    :root:not([data-theme="dark"]){
-      --bg:#F5F0E6; --surface:#FFFFFF; --surface-2:#EFE7D6;
-      --text-primary:#221C15; --text-secondary:#6E6252; --text-muted:#948A76;
-      --line:rgba(34,28,21,0.14); --line-strong:rgba(34,28,21,0.24);
-      --accent:#8C6A34; --accent-strong:#6E5227; --on-accent:#FFFBF3;
-      --shadow:rgba(34,28,21,0.1);
-      --danger:#B34A2E;
-    }
-  }
-  :root[data-theme="light"]{
-    --bg:#F5F0E6; --surface:#FFFFFF; --surface-2:#EFE7D6;
-    --text-primary:#221C15; --text-secondary:#6E6252; --text-muted:#948A76;
-    --line:rgba(34,28,21,0.14); --line-strong:rgba(34,28,21,0.24);
-    --accent:#8C6A34; --accent-strong:#6E5227; --on-accent:#FFFBF3;
-    --shadow:rgba(34,28,21,0.1);
-    --danger:#B34A2E;
-  }
-
   *{box-sizing:border-box;}
   body{
     margin:0; background:var(--bg); color:var(--text-primary);
@@ -277,7 +263,8 @@
 
   .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;}
 </style>
-
+</head>
+<body>
 <h1 class="sr-only">Furnitur Production — портфолио мастерской корпусной мебели на заказ / შეკვეთით დამზადებული კორპუსული ავეჯის სახელოსნოს პორტფოლიო</h1>
 
 <header class="site-header">
@@ -780,10 +767,7 @@
     cursorEnabled: false, cursorEffect: 2.0, cursorStrength: 0.65, cursorRadius: 0.46,
     oklab: 1.0, timeScale: 0.4
   };
-  var PALETTES = {
-    dark:  [[0.043,0.063,0.149],[0.239,0.275,0.910],[0.694,0.549,1.000],[1.000,0.839,0.906]],
-    light: [[0.882,0.882,0.973],[0.596,0.557,0.941],[0.376,0.353,0.851],[0.145,0.157,0.443]]
-  };
+  var PALETTE_DARK = [[0.043,0.063,0.149],[0.239,0.275,0.910],[0.694,0.549,1.000],[1.000,0.839,0.906]];
 
   function compile(type, src){ var s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; }
   var program = gl.createProgram();
@@ -815,27 +799,14 @@
     cursor: gl.getUniformLocation(program, 'u_cursor')
   };
 
-  function isDark(){
-    var explicit = document.documentElement.getAttribute('data-theme');
-    if(explicit === 'dark') return true;
-    if(explicit === 'light') return false;
-    return window.matchMedia('(prefers-color-scheme: dark)').matches;
-  }
-  function applyPalette(){
-    var stops = isDark() ? PALETTES.dark : PALETTES.light;
+  (function applyPalette(){
     var flat = new Float32Array(24);
     for(var i=0;i<8;i++){
-      var c = stops[Math.min(i, stops.length - 1)];
+      var c = PALETTE_DARK[Math.min(i, PALETTE_DARK.length - 1)];
       flat[i*3] = c[0]; flat[i*3+1] = c[1]; flat[i*3+2] = c[2];
     }
     gl.uniform3fv(uni.colors, flat);
-  }
-  applyPalette();
-  if(window.matchMedia){
-    var mq = window.matchMedia('(prefers-color-scheme: dark)');
-    if(mq.addEventListener) mq.addEventListener('change', applyPalette);
-  }
-  new MutationObserver(applyPalette).observe(document.documentElement, { attributes:true, attributeFilter:['data-theme'] });
+  })();
 
   gl.uniform4f(uni.shape, UNIFORMS.scale, UNIFORMS.intensity, UNIFORMS.paramA, UNIFORMS.warp);
   gl.uniform4f(uni.surface, UNIFORMS.detail, UNIFORMS.contrast, UNIFORMS.brightness, UNIFORMS.saturation);
@@ -916,3 +887,5 @@
   requestRender();
 })();
 </script>
+</body>
+</html>
