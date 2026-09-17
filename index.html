@@ -1,0 +1,918 @@
+<title>Furnitur Production</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Piazzolla:ital,opsz,wght@0,8..30,400;0,8..30,500;0,8..30,600;0,8..30,700;1,8..30,500&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+Georgian:wght@400;500;600;700&family=Noto+Sans+Georgian:wght@400;500;600;700&display=swap');
+
+  :root{
+    --bg:#15120E; --surface:#1C1712; --surface-2:#221B14;
+    --text-primary:#F3ECDF; --text-secondary:#B7AB94; --text-muted:#8A8070;
+    --line:rgba(243,236,223,0.12); --line-strong:rgba(243,236,223,0.22);
+    --accent:#CBA05C; --accent-strong:#E8C077; --on-accent:#1B1409;
+    --shadow:rgba(0,0,0,0.4);
+    --danger:#E08A6B;
+    --font-display:'Piazzolla',Georgia,'Times New Roman',serif;
+    --font-display-ka:'Noto Serif Georgian','Piazzolla',Georgia,serif;
+    --font-body:'Manrope',-apple-system,'Segoe UI',sans-serif;
+    --font-body-ka:'Noto Sans Georgian','Manrope',-apple-system,sans-serif;
+    --radius:10px;
+  }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){
+      --bg:#F5F0E6; --surface:#FFFFFF; --surface-2:#EFE7D6;
+      --text-primary:#221C15; --text-secondary:#6E6252; --text-muted:#948A76;
+      --line:rgba(34,28,21,0.14); --line-strong:rgba(34,28,21,0.24);
+      --accent:#8C6A34; --accent-strong:#6E5227; --on-accent:#FFFBF3;
+      --shadow:rgba(34,28,21,0.1);
+      --danger:#B34A2E;
+    }
+  }
+  :root[data-theme="light"]{
+    --bg:#F5F0E6; --surface:#FFFFFF; --surface-2:#EFE7D6;
+    --text-primary:#221C15; --text-secondary:#6E6252; --text-muted:#948A76;
+    --line:rgba(34,28,21,0.14); --line-strong:rgba(34,28,21,0.24);
+    --accent:#8C6A34; --accent-strong:#6E5227; --on-accent:#FFFBF3;
+    --shadow:rgba(34,28,21,0.1);
+    --danger:#B34A2E;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--text-primary);
+    font-family:var(--font-body); line-height:1.7;
+    padding:0 20px; -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%; display:block;}
+  a{color:inherit;}
+  .wrap{max-width:1180px; margin:0 auto;}
+  h1,h2,h3{font-family:var(--font-display); font-weight:600; text-wrap:balance; margin:0;}
+  h1{font-size:clamp(2.1rem,4.6vw,3.7rem); line-height:1.1; letter-spacing:-0.01em;}
+  h2{font-size:clamp(1.6rem,3.2vw,2.35rem); line-height:1.18;}
+  h3{font-size:1.2rem; line-height:1.3;}
+  p{margin:0;}
+  .ru{display:block;}
+  .ka{display:block; font-family:var(--font-body-ka); color:var(--text-secondary);}
+  h1 .ka,h2 .ka,h3 .ka,blockquote .ka{font-family:var(--font-display-ka); font-weight:500; color:var(--text-secondary);}
+  h1 .ka{font-size:0.48em; margin-top:0.4em; line-height:1.3;}
+  h2 .ka{font-size:0.55em; margin-top:0.35em; line-height:1.3;}
+  h3 .ka{font-size:0.72em; margin-top:0.3em; font-weight:500;}
+  p .ka,.lede .ka{font-size:0.9em; margin-top:0.35em;}
+  .eyebrow{
+    font-family:var(--font-body); font-weight:700; font-size:0.72rem;
+    letter-spacing:0.14em; text-transform:uppercase; color:var(--accent);
+  }
+  .eyebrow .ka{font-family:var(--font-body-ka); font-size:0.85em; letter-spacing:0.04em; text-transform:none; color:var(--text-muted); font-weight:600; margin-top:0.25em;}
+  .lede{color:var(--text-secondary); font-size:1.02rem; max-width:38em;}
+  section{padding-block:5.2rem;}
+  @media (max-width:640px){ section{padding-block:3rem;} }
+
+  .slash{opacity:0.55; margin:0 0.4em; font-weight:400;}
+  .bi{white-space:normal;}
+  .bi .ka-inline{font-family:var(--font-body-ka);}
+
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; justify-content:center;
+    font-family:var(--font-body); font-weight:700; font-size:0.9rem;
+    padding:0.8rem 1.4rem; border-radius:999px; border:1px solid transparent;
+    cursor:pointer; text-decoration:none; white-space:nowrap; transition:transform .15s ease, background .15s ease, border-color .15s ease;
+  }
+  .btn-text{display:flex; flex-direction:column; line-height:1.25; align-items:flex-start;}
+  .btn-text .ka-inline{font-family:var(--font-body-ka); font-size:0.78em; font-weight:600; opacity:0.85;}
+  .btn:active{transform:scale(0.97);}
+  .btn-primary{background:var(--accent); color:var(--on-accent); border-color:var(--accent);}
+  .btn-primary:hover{background:var(--accent-strong); border-color:var(--accent-strong);}
+  .btn-ghost{background:transparent; color:var(--text-primary); border-color:var(--line-strong);}
+  .btn-ghost:hover{border-color:var(--accent); color:var(--accent-strong);}
+  .btn svg{width:16px; height:16px; flex:none;}
+
+  .icon{width:20px; height:20px; flex:none; stroke:currentColor; fill:none; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round;}
+
+  /* header */
+  .site-header{
+    position:sticky; top:0; z-index:40; background:color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter:blur(10px); border-bottom:0.5px solid var(--line);
+    margin:0 -20px;
+  }
+  .site-header .wrap{
+    display:flex; align-items:center; justify-content:space-between; gap:1.5rem;
+    padding:0.9rem 20px;
+  }
+  .brand{font-family:var(--font-display); font-weight:700; font-size:1.28rem; letter-spacing:0.01em; text-decoration:none; color:var(--text-primary); display:flex; align-items:baseline; gap:0.55rem;}
+  .brand span{font-family:var(--font-body); font-weight:600; font-size:0.6rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--text-muted);}
+  .brand span .ka-inline{font-family:var(--font-body-ka); text-transform:none;}
+  nav.main-nav{display:flex; align-items:center; gap:1.8rem;}
+  nav.main-nav a{font-size:0.86rem; font-weight:600; text-decoration:none; color:var(--text-secondary); transition:color .15s ease; display:flex; align-items:baseline; gap:0.35em;}
+  nav.main-nav a:hover{color:var(--accent-strong);}
+  nav.main-nav a .ka-inline{font-family:var(--font-body-ka); font-weight:500; font-size:0.92em; color:var(--text-muted);}
+  .header-actions{display:flex; align-items:center; gap:1rem;}
+  .header-phone{font-weight:700; font-size:0.88rem; text-decoration:none; color:var(--text-primary); display:none;}
+  .menu-btn{display:none; background:none; border:1px solid var(--line-strong); border-radius:8px; width:40px; height:40px; align-items:center; justify-content:center; color:var(--text-primary); cursor:pointer;}
+  @media (min-width:900px){ .header-phone{display:inline;} }
+  @media (max-width:900px){
+    nav.main-nav{position:fixed; inset:60px 0 auto 0; background:var(--surface); border-bottom:0.5px solid var(--line); flex-direction:column; align-items:flex-start; gap:0; padding:0.5rem 20px 1rem; transform:translateY(-8px); opacity:0; pointer-events:none; transition:opacity .18s ease, transform .18s ease;}
+    nav.main-nav.open{opacity:1; transform:translateY(0); pointer-events:auto;}
+    nav.main-nav a{padding:0.7rem 0; width:100%; border-bottom:0.5px solid var(--line);}
+    .menu-btn{display:inline-flex;}
+  }
+
+  /* hero */
+  .hero{position:relative; padding-top:3.2rem; padding-bottom:3.2rem;}
+  .hero-shader{position:absolute; inset:0; z-index:0; width:100%; height:100%; display:block; pointer-events:none;}
+  .hero-veil{position:absolute; inset:0; z-index:1; background:color-mix(in srgb, var(--bg) 78%, transparent); pointer-events:none;}
+  .hero-grid{position:relative; z-index:2; display:grid; grid-template-columns:1.05fr 0.95fr; gap:3rem; align-items:center;}
+  @media (max-width:940px){ .hero-grid{grid-template-columns:1fr; gap:2.2rem;} }
+  .hero-copy .eyebrow{margin-bottom:1.1rem; display:block;}
+  .hero-copy h1{margin-bottom:1.2rem;}
+  .hero-copy .lede{margin-bottom:1.8rem;}
+  .hero-ctas{display:flex; flex-wrap:wrap; gap:0.9rem; margin-bottom:1.7rem;}
+  .hero-fineprint{display:flex; flex-wrap:wrap; gap:0.9rem 1.6rem; font-size:0.82rem; color:var(--text-muted);}
+  .hero-fineprint .item{display:flex; flex-direction:column;}
+  .hero-fineprint b{color:var(--text-secondary); font-weight:700;}
+  .hero-fineprint .ka-inline{font-family:var(--font-body-ka); font-size:0.92em; margin-top:0.15em;}
+  .hero-media{position:relative; border-radius:16px; overflow:hidden; aspect-ratio:4/5; box-shadow:0 30px 60px -20px var(--shadow);}
+  .hero-media img{width:100%; height:100%; object-fit:cover;}
+  .hero-media::after{content:""; position:absolute; inset:0; background:linear-gradient(180deg, transparent 55%, rgba(0,0,0,0.35)); pointer-events:none;}
+  .hero-media .tag{position:absolute; left:1.1rem; bottom:1.1rem; background:color-mix(in srgb, var(--bg) 55%, transparent); backdrop-filter:blur(6px); color:#F3ECDF; padding:0.55rem 0.9rem; border-radius:999px; font-size:0.76rem; font-weight:600; border:1px solid rgba(255,255,255,0.18);}
+
+  @media (prefers-reduced-motion:no-preference){
+    .hero-copy > *{animation:rise .7s ease both;}
+    .hero-copy .eyebrow{animation-delay:0s;}
+    .hero-copy h1{animation-delay:.06s;}
+    .hero-copy .lede{animation-delay:.12s;}
+    .hero-copy .hero-ctas{animation-delay:.18s;}
+    .hero-copy .hero-fineprint{animation-delay:.24s;}
+    .hero-media{animation:rise .8s ease .1s both;}
+    @keyframes rise{from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:translateY(0);}}
+  }
+
+  /* stats */
+  .stats-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:0.5px solid var(--line); border-radius:var(--radius); overflow:hidden;}
+  @media (max-width:760px){ .stats-grid{grid-template-columns:repeat(2,1fr);} }
+  .stat{background:var(--surface); padding:1.7rem 1.4rem;}
+  .stat .num{font-family:var(--font-display); font-weight:700; font-size:1.85rem; color:var(--accent-strong);}
+  .stat .num .ka-inline{font-family:var(--font-body-ka); font-size:0.55em; font-weight:600; color:var(--text-muted); margin-left:0.4em;}
+  .stat .label{margin-top:0.4rem; font-size:0.84rem; color:var(--text-secondary);}
+  .stat .label .ka{font-size:0.92em; color:var(--text-muted); margin-top:0.2em;}
+
+  /* section heads */
+  .section-head{display:flex; justify-content:space-between; align-items:flex-end; gap:2rem; margin-bottom:2.6rem;}
+  .section-head h2{margin-top:0.5rem;}
+  @media (max-width:700px){ .section-head{flex-direction:column; align-items:flex-start; gap:1rem;} }
+
+  /* portfolio */
+  .portfolio-grid{display:grid; grid-template-columns:repeat(6,1fr); gap:1.4rem;}
+  @media (max-width:900px){ .portfolio-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:520px){ .portfolio-grid{grid-template-columns:1fr;} }
+  .p-card{position:relative; border-radius:14px; overflow:hidden; background:var(--surface); border:0.5px solid var(--line);}
+  .p-card.large{grid-column:span 4;}
+  .p-card.small{grid-column:span 2;}
+  @media (max-width:900px){ .p-card.large, .p-card.small{grid-column:span 2;} }
+  @media (max-width:520px){ .p-card.large, .p-card.small{grid-column:span 1;} }
+  .p-card .ph{position:relative; overflow:hidden; aspect-ratio:4/3;}
+  .p-card.large .ph{aspect-ratio:16/10;}
+  .p-card img{width:100%; height:100%; object-fit:cover; transition:transform .5s ease;}
+  .p-card:hover img{transform:scale(1.045);}
+  .p-card .cat{position:absolute; top:0.9rem; left:0.9rem; background:color-mix(in srgb, var(--bg) 60%, transparent); backdrop-filter:blur(6px); color:#F3ECDF; font-size:0.68rem; font-weight:700; letter-spacing:0.02em; text-transform:none; padding:0.4rem 0.7rem; border-radius:999px; border:1px solid rgba(255,255,255,0.16); display:flex; gap:0.4em;}
+  .p-card .cat .ka-inline{font-family:var(--font-body-ka); opacity:0.85;}
+  .p-card .info{padding:1.1rem 1.2rem 1.3rem;}
+  .p-card .info h3{margin-bottom:0.45rem;}
+  .p-card .info p{color:var(--text-secondary); font-size:0.87rem;}
+
+  /* process */
+  .process-wrap{display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:start;}
+  @media (max-width:900px){ .process-wrap{grid-template-columns:1fr;} }
+  .process-media{border-radius:14px; overflow:hidden; border:0.5px solid var(--line);}
+  .process-media img{aspect-ratio:4/3; object-fit:cover; width:100%;}
+  .p-steps{display:flex; flex-direction:column;}
+  .p-step{display:grid; grid-template-columns:auto 1fr; gap:1.1rem; padding-block:1.4rem; border-top:0.5px solid var(--line);}
+  .p-step:last-child{border-bottom:0.5px solid var(--line);}
+  .p-step .n{font-family:var(--font-display); font-weight:600; font-size:1.5rem; color:var(--accent); line-height:1;}
+  .p-step h3{margin-bottom:0.4rem;}
+  .p-step p{color:var(--text-secondary); font-size:0.9rem;}
+
+  /* why us */
+  .why-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:1.3rem;}
+  @media (max-width:900px){ .why-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:520px){ .why-grid{grid-template-columns:1fr;} }
+  .why-card{background:var(--surface); border:0.5px solid var(--line); border-radius:14px; padding:1.5rem 1.35rem;}
+  .why-card .icon-wrap{width:42px; height:42px; border-radius:10px; background:var(--surface-2); display:flex; align-items:center; justify-content:center; color:var(--accent-strong); margin-bottom:1.1rem;}
+  .why-card h3{margin-bottom:0.5rem; font-size:1.05rem;}
+  .why-card p{color:var(--text-secondary); font-size:0.87rem;}
+
+  /* quote */
+  .quote-section{padding-block:1.8rem 4.2rem;}
+  blockquote{margin:0; border-left:2px solid var(--accent); padding-left:1.6rem; font-family:var(--font-display); font-style:italic; font-weight:500; font-size:clamp(1.2rem,2.4vw,1.55rem); color:var(--text-primary); max-width:34em;}
+  blockquote .ka{font-style:italic; font-size:0.7em; margin-top:0.6em;}
+  blockquote footer{margin-top:1.1rem; font-family:var(--font-body); font-style:normal; font-weight:700; font-size:0.8rem; letter-spacing:0.04em; text-transform:uppercase; color:var(--text-muted);}
+
+  /* contact */
+  .contact-wrap{display:grid; grid-template-columns:0.9fr 1.1fr; gap:3rem;}
+  @media (max-width:900px){ .contact-wrap{grid-template-columns:1fr;} }
+  .contact-info h2{margin-bottom:0.9rem;}
+  .contact-info .lede{margin-bottom:2rem;}
+  .contact-line{display:flex; align-items:center; gap:0.8rem; padding-block:0.9rem; border-top:0.5px solid var(--line); text-decoration:none; color:var(--text-primary);}
+  .contact-line:last-of-type{border-bottom:0.5px solid var(--line);}
+  .contact-line .icon-wrap{width:38px; height:38px; border-radius:9px; background:var(--surface-2); display:flex; align-items:center; justify-content:center; color:var(--accent-strong); flex:none;}
+  .contact-line .txt b{display:block; font-size:0.95rem;}
+  .contact-line .txt .sub{display:block; font-size:0.8rem; color:var(--text-muted); margin-top:0.15rem;}
+  .contact-line .txt .sub .ka-inline{font-family:var(--font-body-ka);}
+
+  form.request{background:var(--surface); border:0.5px solid var(--line); border-radius:16px; padding:1.7rem;}
+  .field{display:flex; flex-direction:column; gap:0.4rem; margin-bottom:1.1rem;}
+  .field label{font-size:0.8rem; font-weight:700; color:var(--text-secondary);}
+  .field label .ka-inline{font-family:var(--font-body-ka); font-weight:600; color:var(--text-muted);}
+  .field input, .field select, .field textarea{
+    font-family:var(--font-body); font-size:0.93rem; color:var(--text-primary);
+    background:var(--surface-2); border:0.5px solid var(--line-strong); border-radius:8px;
+    padding:0.75rem 0.9rem; outline:none; transition:border-color .15s ease;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{border-color:var(--accent);}
+  .field textarea{resize:vertical; min-height:80px; font-family:var(--font-body);}
+  .field-row{display:grid; grid-template-columns:1fr 1fr; gap:1rem;}
+  @media (max-width:480px){ .field-row{grid-template-columns:1fr;} }
+  .field-error{font-size:0.76rem; color:var(--danger); min-height:1em;}
+  form.request .btn{width:100%; padding:0.95rem;}
+  form.request .btn .btn-text{align-items:center;}
+  .form-note{font-size:0.74rem; color:var(--text-muted); margin-top:0.9rem; text-align:center;}
+  .form-note .ka{font-size:0.95em; margin-top:0.2em;}
+
+  /* footer */
+  footer.site-footer{border-top:0.5px solid var(--line); padding-block:2.8rem; margin-top:2rem;}
+  .footer-grid{display:flex; flex-wrap:wrap; justify-content:space-between; gap:2rem;}
+  .footer-brand{max-width:26em;}
+  .footer-brand .brand{margin-bottom:0.6rem;}
+  .footer-brand p{color:var(--text-muted); font-size:0.84rem;}
+  .footer-brand p .ka{font-size:0.95em; margin-top:0.3em;}
+  .footer-nav{display:flex; gap:2.4rem; flex-wrap:wrap;}
+  .footer-col h4{font-size:0.72rem; letter-spacing:0.06em; text-transform:none; color:var(--text-muted); margin-bottom:0.9rem; font-weight:700; display:flex; gap:0.4em;}
+  .footer-col h4 .ka-inline{font-family:var(--font-body-ka); opacity:0.8;}
+  .footer-col a{display:flex; gap:0.4em; text-decoration:none; color:var(--text-secondary); font-size:0.87rem; margin-bottom:0.6rem;}
+  .footer-col a:hover{color:var(--accent-strong);}
+  .footer-col a .ka-inline{font-family:var(--font-body-ka); color:var(--text-muted);}
+  .footer-bottom{margin-top:2.2rem; padding-top:1.3rem; border-top:0.5px solid var(--line); display:flex; justify-content:space-between; flex-wrap:wrap; gap:0.8rem; font-size:0.76rem; color:var(--text-muted);}
+  .footer-bottom .stack{display:flex; flex-direction:column; gap:0.15rem;}
+  .footer-bottom .ka{font-size:0.95em;}
+
+  /* floating actions */
+  .floating-actions{position:fixed; right:20px; bottom:20px; display:flex; flex-direction:column; gap:0.7rem; z-index:50;}
+  .fab{position:relative; width:52px; height:52px; border-radius:50%; background:var(--accent); color:var(--on-accent); display:flex; align-items:center; justify-content:center; text-decoration:none; box-shadow:0 10px 24px -8px var(--shadow); border:1px solid var(--accent-strong); transition:transform .15s ease, background .15s ease;}
+  .fab:hover{background:var(--accent-strong); transform:translateY(-2px);}
+  .fab .icon{width:22px; height:22px;}
+
+  .btn-pulse{position:relative;}
+  .fab::after, .btn-pulse::after{
+    content:""; position:absolute; inset:0; border-radius:inherit;
+    box-shadow:0 0 0 0 color-mix(in srgb, var(--accent-strong) 50%, transparent);
+    animation:ctaPulse 2.1s ease-out infinite;
+    pointer-events:none;
+  }
+  .fab:hover::after, .btn-pulse:hover::after{animation-play-state:paused; opacity:0;}
+
+  @keyframes ctaPulse{
+    0%{box-shadow:0 0 0 0 color-mix(in srgb, var(--accent-strong) 85%, transparent), 0 0 0 0 color-mix(in srgb, var(--accent-strong) 50%, transparent);}
+    50%{box-shadow:0 0 0 14px color-mix(in srgb, var(--accent-strong) 0%, transparent), 0 0 0 26px color-mix(in srgb, var(--accent-strong) 0%, transparent);}
+    100%{box-shadow:0 0 0 14px color-mix(in srgb, var(--accent-strong) 0%, transparent), 0 0 0 26px color-mix(in srgb, var(--accent-strong) 0%, transparent);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .fab::after, .btn-pulse::after{animation:none; display:none;}
+  }
+
+  .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;}
+</style>
+
+<h1 class="sr-only">Furnitur Production — портфолио мастерской корпусной мебели на заказ / შეკვეთით დამზადებული კორპუსული ავეჯის სახელოსნოს პორტფოლიო</h1>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="#top">Furnitur Production<span><span lang="ru">мебель на заказ</span><span class="slash">/</span><span class="ka-inline" lang="ka">ავეჯი შეკვეთით</span></span></a>
+    <nav class="main-nav" id="mainNav">
+      <a href="#portfolio"><span lang="ru">Портфолио</span><span class="ka-inline" lang="ka">პორტფოლიო</span></a>
+      <a href="#process"><span lang="ru">Процесс</span><span class="ka-inline" lang="ka">პროცესი</span></a>
+      <a href="#why"><span lang="ru">Почему мы</span><span class="ka-inline" lang="ka">რატომ ჩვენ</span></a>
+      <a href="#contact"><span lang="ru">Контакты</span><span class="ka-inline" lang="ka">კონტაქტი</span></a>
+    </nav>
+    <div class="header-actions">
+      <a class="header-phone" href="tel:+995555123456">+995 555 12 34 56</a>
+      <a class="btn btn-primary btn-pulse" href="#contact">
+        <span class="btn-text"><span lang="ru">Оставить заявку</span><span class="ka-inline" lang="ka">განაცხადის დატოვება</span></span>
+      </a>
+      <button class="menu-btn" id="menuBtn" aria-label="Открыть меню / მენიუს გახსნა" aria-expanded="false">
+        <svg class="icon" viewBox="0 0 24 24"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <canvas class="hero-shader" id="heroShader" aria-hidden="true"></canvas>
+    <div class="hero-veil" aria-hidden="true"></div>
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">
+          <span class="ru" lang="ru">Мастерская корпусной мебели · Батуми</span>
+          <span class="ka" lang="ka">კორპუსული ავეჯის საწარმო · ბათუმი</span>
+        </span>
+        <h1>
+          <span class="ru" lang="ru">Мебель по вашим размерам, а не по каталогу</span>
+          <span class="ka" lang="ka">ავეჯი თქვენი ზომებით, კატალოგის მაგივრად</span>
+        </h1>
+        <p class="lede">
+          <span class="ru" lang="ru">Проектируем, производим и монтируем кухни, гардеробные, прихожие и мебель для дома — от первого замера до установки, без посредников между чертежом и цехом.</span>
+          <span class="ka" lang="ka">ვაპროექტებთ, ვაწარმოებთ და ვამონტაჟებთ სამზარეულოებს, გარდერობებს, დერეფნის და სახლის ავეჯს — პირველი გაზომვიდან მონტაჟამდე, ნახაზსა და საამქროს შორის შუამავლების გარეშე.</span>
+        </p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary btn-pulse" href="#contact">
+            <span class="btn-text"><span lang="ru">Оставить заявку на замер</span><span class="ka-inline" lang="ka">გაზომვის შეკვეთა</span></span>
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn-ghost" href="#portfolio">
+            <span class="btn-text"><span lang="ru">Смотреть портфолио</span><span class="ka-inline" lang="ka">პორტფოლიოს ნახვა</span></span>
+          </a>
+        </div>
+        <div class="hero-fineprint">
+          <span class="item"><span lang="ru"><b>Бесплатный</b> замер и проект</span><span class="ka-inline" lang="ka"><b>უფასო</b> გაზომვა და პროექტი</span></span>
+          <span class="item"><span lang="ru"><b>21 день</b> средний срок производства</span><span class="ka-inline" lang="ka"><b>21 დღე</b> წარმოების საშუალო ვადა</span></span>
+          <span class="item"><span lang="ru"><b>3 года</b> гарантии на сборку</span><span class="ka-inline" lang="ka"><b>3 წელი</b> აწყობის გარანტია</span></span>
+        </div>
+      </div>
+      <div class="hero-media">
+        <img src="img/hero-kitchen.png" alt="Кухня на заказ с тёмными фасадами и деревянным островом / შეკვეთით დამზადებული სამზარეულო მუქი ფასადებითა და ხის კუნძულით" width="1200" height="1500">
+        <span class="tag">Проект «Графит и орех» / პროექტი «გრაფიტი და კაკალი» · кухня/სამზარეულო</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats">
+    <div class="wrap stats-grid">
+      <div class="stat">
+        <div class="num">12 лет<span class="ka-inline" lang="ka">12 წელი</span></div>
+        <div class="label"><span class="ru" lang="ru">на рынке корпусной мебели</span><span class="ka" lang="ka">კორპუსული ავეჯის ბაზარზე</span></div>
+      </div>
+      <div class="stat">
+        <div class="num">430+</div>
+        <div class="label"><span class="ru" lang="ru">реализованных проектов</span><span class="ka" lang="ka">დასრულებული პროექტი</span></div>
+      </div>
+      <div class="stat">
+        <div class="num">21 день<span class="ka-inline" lang="ka">21 დღე</span></div>
+        <div class="label"><span class="ru" lang="ru">средний срок производства</span><span class="ka" lang="ka">წარმოების საშუალო ვადა</span></div>
+      </div>
+      <div class="stat">
+        <div class="num">3 года<span class="ka-inline" lang="ka">3 წელი</span></div>
+        <div class="label"><span class="ru" lang="ru">гарантии на фурнитуру и сборку</span><span class="ka" lang="ka">ფურნიტურისა და აწყობის გარანტია</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="portfolio">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow"><span class="ru" lang="ru">Портфолио</span><span class="ka" lang="ka">პორტფოლიო</span></span>
+          <h2><span class="ru" lang="ru">Каждый проект — под конкретное помещение</span><span class="ka" lang="ka">ყოველი პროექტი — კონკრეტული სივრცისთვის</span></h2>
+        </div>
+        <p class="lede"><span class="ru" lang="ru">Свои размеры, свой материал, своя фурнитура — ниже часть работ последних сезонов.</span><span class="ka" lang="ka">საკუთარი ზომები, საკუთარი მასალა, საკუთარი ფურნიტურა — ქვემოთ ბოლო სეზონების ნამუშევრები.</span></p>
+      </div>
+
+      <div class="portfolio-grid">
+        <article class="p-card large">
+          <div class="ph">
+            <span class="cat"><span lang="ru">Кухни</span><span class="ka-inline" lang="ka">სამზარეულოები</span></span>
+            <img src="img/hero-kitchen.png" alt="Кухня «Графит и орех» с островом и подсветкой цоколя / სამზარეულო «გრაფიტი და კაკალი» კუნძულითა და ცოკოლის განათებით" loading="lazy">
+          </div>
+          <div class="info">
+            <h3><span class="ru" lang="ru">Кухня «Графит и орех»</span><span class="ka" lang="ka">სამზარეულო «გრაფიტი და კაკალი»</span></h3>
+            <p><span class="ru" lang="ru">Фасады soft-touch, остров с барной зоной, скрытые ручки, подсветка в цоколе.</span><span class="ka" lang="ka">Soft-touch ფასადები, კუნძული ბარის ზონით, ფარული სახელურები, ცოკოლის განათება.</span></p>
+          </div>
+        </article>
+
+        <article class="p-card small">
+          <div class="ph">
+            <span class="cat"><span lang="ru">Кухни</span><span class="ka-inline" lang="ka">სამზარეულოები</span></span>
+            <img src="img/kitchen-scandi.png" alt="Кухня «Скандинавское утро», дуб и антрацит / სამზარეულო «სკანდინავიური დილა», მუხა და ანტრაციტი" loading="lazy">
+          </div>
+          <div class="info">
+            <h3><span class="ru" lang="ru">Кухня «Скандинавское утро»</span><span class="ka" lang="ka">სამზარეულო «სკანდინავიური დილა»</span></h3>
+            <p><span class="ru" lang="ru">Дуб натур и антрацит, столешница-водопад, ручки brass.</span><span class="ka" lang="ka">ბუნებრივი მუხა და ანტრაციტი, „ჩანჩქერის“ ტიპის ზედაპირი, brass სახელურები.</span></p>
+          </div>
+        </article>
+
+        <article class="p-card small">
+          <div class="ph">
+            <span class="cat"><span lang="ru">Гардеробные</span><span class="ka-inline" lang="ka">გარდერობები</span></span>
+            <img src="img/wardrobe.png" alt="Гардеробная с шпоном дуба и подсветкой полок / გარდერობი მუხის ფანერითა და თაროების განათებით" loading="lazy">
+          </div>
+          <div class="info">
+            <h3><span class="ru" lang="ru">Гардеробная «Шпон»</span><span class="ka" lang="ka">გარდერობი «ფანერი»</span></h3>
+            <p><span class="ru" lang="ru">Шпон дуба, стекло сатин, LED-подсветка полок, система хранения Boyard.</span><span class="ka" lang="ka">მუხის ფანერი, სატინის მინა, თაროების LED-განათება, Boyard შენახვის სისტემა.</span></p>
+          </div>
+        </article>
+
+        <article class="p-card small">
+          <div class="ph">
+            <span class="cat"><span lang="ru">Прихожие</span><span class="ka-inline" lang="ka">დერეფნის ავეჯი</span></span>
+            <img src="img/hallway.png" alt="Прихожая с фасадом до потолка и скамьёй / დერეფანი ჭერამდე ფასადითა და სკამით" loading="lazy">
+          </div>
+          <div class="info">
+            <h3><span class="ru" lang="ru">Прихожая «Компакт»</span><span class="ka" lang="ka">დერეფანი «კომპაქტი»</span></h3>
+            <p><span class="ru" lang="ru">Фасад до потолка, скамья, зеркало в раме из массива.</span><span class="ka" lang="ka">ჭერამდე ფასადი, სკამი, სარკე მასიური ჩარჩოთი.</span></p>
+          </div>
+        </article>
+
+        <article class="p-card small">
+          <div class="ph">
+            <span class="cat"><span lang="ru">Детские</span><span class="ka-inline" lang="ka">საბავშვო ავეჯი</span></span>
+            <img src="img/kidsroom.png" alt="Детская со светлым дубовым шкафом и столом / საბავშვო ოთახი ღია მუხის კარადითა და მაგიდით" loading="lazy">
+          </div>
+          <div class="info">
+            <h3><span class="ru" lang="ru">Детская «Светлый дуб»</span><span class="ka" lang="ka">საბავშვო ოთახი «ღია მუხა»</span></h3>
+            <p><span class="ru" lang="ru">Влагостойкий ЛДСП E0, скруглённые кромки 2 мм, растущая система полок.</span><span class="ka" lang="ka">წყალგამძლე ლდსპ E0, დამრგვალებული კიდეები 2 მმ, ზრდადი თაროების სისტემა.</span></p>
+          </div>
+        </article>
+
+        <article class="p-card small">
+          <div class="ph">
+            <span class="cat"><span lang="ru">Ванная</span><span class="ka-inline" lang="ka">სააბაზანო ავეჯი</span></span>
+            <img src="img/bathroom.png" alt="Тумба для ванной из ореха с мраморной столешницей / სააბაზანო კარადა კაკლის ხისგან მარმარილოს ზედაპირით" loading="lazy">
+          </div>
+          <div class="info">
+            <h3><span class="ru" lang="ru">Тумба «Мрамор и орех»</span><span class="ka" lang="ka">კარადა «მარმარილო და კაკალი»</span></h3>
+            <p><span class="ru" lang="ru">Влагостойкая база, фрезеровка фасада, столешница из камня.</span><span class="ka" lang="ka">წყალგამძლე ბაზა, ფასადის ფრეზირება, ქვის ზედაპირი.</span></p>
+          </div>
+        </article>
+
+        <article class="p-card small">
+          <div class="ph">
+            <span class="cat"><span lang="ru">Кабинеты</span><span class="ka-inline" lang="ka">საოფისე ავეჯი</span></span>
+            <img src="img/office.png" alt="Кабинет со встроенными полками и латунной фурнитурой / კაბინეტი ჩაშენებული თაროებითა და ლათუნის ფურნიტურით" loading="lazy">
+          </div>
+          <div class="info">
+            <h3><span class="ru" lang="ru">Кабинет «Латунь»</span><span class="ka" lang="ka">კაბინეტი «ლათუნი»</span></h3>
+            <p><span class="ru" lang="ru">Открытые полки, встроенный стол, латунная фурнитура.</span><span class="ka" lang="ka">ღია თაროები, ჩაშენებული მაგიდა, ლათუნის ფურნიტურა.</span></p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="process">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow"><span class="ru" lang="ru">Как мы работаем</span><span class="ka" lang="ka">როგორ ვმუშაობთ</span></span>
+          <h2><span class="ru" lang="ru">От замера до монтажа — четыре шага</span><span class="ka" lang="ka">გაზომვიდან მონტაჟამდე — ოთხი ნაბიჯი</span></h2>
+        </div>
+      </div>
+      <div class="process-wrap">
+        <div class="process-media">
+          <img src="img/workshop-wide.png" alt="Цех мастерской с материалами и станками для раскроя / საამქრო მასალებითა და საჭრელი დანადგარებით" loading="lazy">
+        </div>
+        <div class="p-steps">
+          <div class="p-step">
+            <span class="n">01</span>
+            <div>
+              <h3><span class="ru" lang="ru">Замер</span><span class="ka" lang="ka">გაზომვა</span></h3>
+              <p><span class="ru" lang="ru">Выезжаем на объект в течение 2 дней, снимаем точные размеры и обсуждаем задачи.</span><span class="ka" lang="ka">ობიექტზე მივდივართ 2 დღეში, ვზომავთ ზუსტ ზომებს და განვიხილავთ დავალებას.</span></p>
+            </div>
+          </div>
+          <div class="p-step">
+            <span class="n">02</span>
+            <div>
+              <h3><span class="ru" lang="ru">Проект и чертежи</span><span class="ka" lang="ka">პროექტი და ნახაზები</span></h3>
+              <p><span class="ru" lang="ru">Готовим чертежи и раскладку фасадов — согласовываем каждую деталь до запуска в цех.</span><span class="ka" lang="ka">ვამზადებთ ნახაზებსა და ფასადების განლაგებას — ვათანხმებთ ყველა დეტალს საამქროში გაშვებამდე.</span></p>
+            </div>
+          </div>
+          <div class="p-step">
+            <span class="n">03</span>
+            <div>
+              <h3><span class="ru" lang="ru">Производство</span><span class="ka" lang="ka">წარმოება</span></h3>
+              <p><span class="ru" lang="ru">Раскраиваем и кромкуем материал на собственном участке, контролируем сборку на каждом этапе.</span><span class="ka" lang="ka">ვჭრით და ვამუშავებთ კიდეებს საკუთარ საწარმოში, ვაკონტროლებთ აწყობას ყოველ ეტაპზე.</span></p>
+            </div>
+          </div>
+          <div class="p-step">
+            <span class="n">04</span>
+            <div>
+              <h3><span class="ru" lang="ru">Монтаж</span><span class="ka" lang="ka">მონტაჟი</span></h3>
+              <p><span class="ru" lang="ru">Собираем и устанавливаем на объекте, передаём гарантию 3 года на фурнитуру и сборку.</span><span class="ka" lang="ka">ვაწყობთ და ვდგამთ ობიექტზე, ვაძლევთ 3 წლიან გარანტიას ფურნიტურასა და აწყობაზე.</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="why">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow"><span class="ru" lang="ru">Почему с нами удобно</span><span class="ka" lang="ka">რატომ არის ჩვენთან მოხერხებული</span></span>
+          <h2><span class="ru" lang="ru">Четыре причины доверить нам проект</span><span class="ka" lang="ka">ოთხი მიზეზი, რომ ჩვენ გვანდოთ პროექტი</span></h2>
+        </div>
+      </div>
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="icon-wrap"><svg class="icon" viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M9 21v-6h6v6"/></svg></div>
+          <h3><span class="ru" lang="ru">Своё производство</span><span class="ka" lang="ka">საკუთარი წარმოება</span></h3>
+          <p><span class="ru" lang="ru">От раскроя до сборки — все процессы под одной крышей, без посредников.</span><span class="ka" lang="ka">ჭრიდან აწყობამდე — ყველა პროცესი ერთი სახურავის ქვეშ, შუამავლების გარეშე.</span></p>
+        </div>
+        <div class="why-card">
+          <div class="icon-wrap"><svg class="icon" viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.4 8.4-8 9-4.6-.6-8-4-8-9V7l8-4z"/></svg></div>
+          <h3><span class="ru" lang="ru">Экологичные материалы</span><span class="ka" lang="ka">ეკოლოგიურად სუფთა მასალები</span></h3>
+          <p><span class="ru" lang="ru">ЛДСП и МДФ классов эмиссии E0/E1, фурнитура Blum и Hettich.</span><span class="ka" lang="ka">ლდსპ და მდფ ემისიის კლასით E0/E1, Blum და Hettich ფურნიტურა.</span></p>
+        </div>
+        <div class="why-card">
+          <div class="icon-wrap"><svg class="icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v3M16 4v3"/></svg></div>
+          <h3><span class="ru" lang="ru">Замер и проект бесплатно</span><span class="ka" lang="ka">გაზომვა და პროექტი უფასოდ</span></h3>
+          <p><span class="ru" lang="ru">Проект и расчёт стоимости — ещё до того, как вы примете решение.</span><span class="ka" lang="ka">პროექტი და ღირებულების გაანგარიშება — გადაწყვეტილების მიღებამდე.</span></p>
+        </div>
+        <div class="why-card">
+          <div class="icon-wrap"><svg class="icon" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 5-3 8.5-7 10-4-1.5-7-5-7-10V6l7-3z"/><path d="M9.5 12l1.8 1.8L15 10"/></svg></div>
+          <h3><span class="ru" lang="ru">Гарантия 3 года</span><span class="ka" lang="ka">3 წლიანი გარანტია</span></h3>
+          <p><span class="ru" lang="ru">На фурнитуру, сборку и монтаж — сервис после установки по вашему обращению.</span><span class="ka" lang="ka">ფურნიტურაზე, აწყობასა და მონტაჟზე — მომსახურება დამონტაჟების შემდეგაც, მიმართვისთანავე.</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="quote-section">
+    <div class="wrap">
+      <blockquote>
+        <span class="ru" lang="ru">Мы считаем, что мебель должна повторять форму жизни в доме, а не наоборот — поэтому не продаём готовые модули, а проектируем под конкретные стены и привычки.</span>
+        <span class="ka" lang="ka">ჩვენ მიგვაჩნია, რომ ავეჯმა უნდა გაიმეოროს სახლში ცხოვრების ფორმა და არა პირიქით — ამიტომ არ ვყიდით მზა მოდულებს, არამედ ვაპროექტებთ კონკრეტული კედლებისა და ჩვევებისთვის.</span>
+        <footer>— Furnitur Production</footer>
+      </blockquote>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap contact-wrap">
+      <div class="contact-info">
+        <span class="eyebrow"><span class="ru" lang="ru">Контакты</span><span class="ka" lang="ka">კონტაქტი</span></span>
+        <h2><span class="ru" lang="ru">Обсудим ваш проект</span><span class="ka" lang="ka">განვიხილოთ თქვენი პროექტი</span></h2>
+        <p class="lede"><span class="ru" lang="ru">Оставьте номер — перезвоним в течение часа. Или напишите сразу в мессенджер, так тоже быстро ответим.</span><span class="ka" lang="ka">დატოვეთ ნომერი — გადმოგირეკავთ ერთი საათის განმავლობაში. ან მოგვწერეთ პირდაპირ მესენჯერში.</span></p>
+
+        <a class="contact-line" href="tel:+995555123456">
+          <span class="icon-wrap"><svg class="icon" viewBox="0 0 24 24"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 9 9 0 0 0 2.8.45 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A16 16 0 0 1 3 5a1 1 0 0 1 1-1h3.3a1 1 0 0 1 1 1 9 9 0 0 0 .45 2.8 1 1 0 0 1-.25 1z"/></svg></span>
+          <span class="txt"><b>+995 555 12 34 56</b><span class="sub"><span lang="ru">Ежедневно, 9:00–21:00</span><span class="slash">/</span><span class="ka-inline" lang="ka">ყოველდღე, 9:00–21:00</span></span></span>
+        </a>
+        <a class="contact-line" href="https://wa.me/995555123456" target="_blank" rel="noopener">
+          <span class="icon-wrap"><svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.55L4 20l1.02-4.46A8.5 8.5 0 1 1 21 11.5z"/><path d="M8.5 10.5c.3 2.5 2.5 4.7 5 5"/></svg></span>
+          <span class="txt"><b>WhatsApp</b><span class="sub"><span lang="ru">Ответим в течение часа</span><span class="slash">/</span><span class="ka-inline" lang="ka">პასუხს გავცემთ ერთ საათში</span></span></span>
+        </a>
+        <a class="contact-line" href="https://t.me/furnitur_production" target="_blank" rel="noopener">
+          <span class="icon-wrap"><svg class="icon" viewBox="0 0 24 24"><path d="M22 3L2.5 10.8l6 2.1M22 3l-3.3 17-8.2-6M22 3L9.5 15.6"/></svg></span>
+          <span class="txt"><b>@furnitur_production</b><span class="sub">Telegram</span></span>
+        </a>
+        <a class="contact-line" href="#" onclick="return false;" style="cursor:default;">
+          <span class="icon-wrap"><svg class="icon" viewBox="0 0 24 24"><path d="M20 10c0 5.5-8 12-8 12s-8-6.5-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="2.8"/></svg></span>
+          <span class="txt"><b><span lang="ru">Батуми</span><span class="slash">/</span><span class="ka-inline" lang="ka">ბათუმი</span></b><span class="sub"><span lang="ru">Шоурум в Батуми, цех в Махинджаури — по предварительной записи</span><span class="slash">/</span><span class="ka-inline" lang="ka">შოურუმი ბათუმში, საამქრო მახინჯაურში — წინასწარი ჩაწერით</span></span></span>
+        </a>
+      </div>
+
+      <form class="request" id="requestForm" novalidate>
+        <div class="field-row">
+          <div class="field">
+            <label for="f-name"><span lang="ru">Имя</span><span class="ka-inline" lang="ka">სახელი</span></label>
+            <input id="f-name" name="name" type="text" placeholder="Как к вам обращаться / როგორ მოგმართოთ" autocomplete="name">
+            <span class="field-error" id="err-name"></span>
+          </div>
+          <div class="field">
+            <label for="f-phone"><span lang="ru">Телефон</span><span class="ka-inline" lang="ka">ტელეფონი</span></label>
+            <input id="f-phone" name="phone" type="tel" placeholder="+7 ___ ___-__-__" autocomplete="tel">
+            <span class="field-error" id="err-phone"></span>
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-type"><span lang="ru">Что нужно изготовить</span><span class="ka-inline" lang="ka">რისი დამზადება გჭირდებათ</span></label>
+          <select id="f-type" name="type">
+            <option>Кухня / სამზარეულო</option>
+            <option>Гардеробная / шкаф-купе / გარდერობი</option>
+            <option>Прихожая / დერეფანი</option>
+            <option>Детская / საბავშვო ოთახი</option>
+            <option>Мебель для ванной / სააბაზანოს ავეჯი</option>
+            <option>Кабинет / библиотека / კაბინეტი</option>
+            <option>Другое / სხვა</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-comment"><span lang="ru">Комментарий</span><span class="ka-inline" lang="ka">კომენტარი</span></label>
+          <textarea id="f-comment" name="comment" placeholder="Размеры, материалы, сроки — если уже известны / ზომები, მასალები, ვადები, თუ ცნობილია"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-pulse">
+          <span class="btn-text"><span lang="ru">Отправить заявку в WhatsApp</span><span class="ka-inline" lang="ka">მოთხოვნის გაგზავნა WhatsApp-ში</span></span>
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+        <p class="form-note">
+          <span class="ru" lang="ru">Нажимая кнопку, вы соглашаетесь на обработку персональных данных</span>
+          <span class="ka" lang="ka">ღილაკზე დაჭერით თქვენ ეთანხმებით პერსონალურ მონაცემთა დამუშავებას</span>
+        </p>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-grid">
+    <div class="footer-brand">
+      <a class="brand" href="#top">Furnitur Production<span><span lang="ru">мебель на заказ</span><span class="slash">/</span><span class="ka-inline" lang="ka">ავეჯი შეკვეთით</span></span></a>
+      <p>
+        <span class="ru" lang="ru">Мастерская корпусной мебели полного цикла: проект, производство и монтаж кухонь, гардеробных и мебели для дома в Батуми, Махинджаури и окрестностях.</span>
+        <span class="ka" lang="ka">სრული ციკლის კორპუსული ავეჯის საწარმო: სამზარეულოების, გარდერობებისა და სახლის ავეჯის პროექტირება, წარმოება და მონტაჟი ბათუმსა, მახინჯაურსა და მიმდებარე ტერიტორიაზე.</span>
+      </p>
+    </div>
+    <div class="footer-nav">
+      <div class="footer-col">
+        <h4><span lang="ru">Разделы</span><span class="ka-inline" lang="ka">განყოფილებები</span></h4>
+        <a href="#portfolio"><span lang="ru">Портфолио</span><span class="ka-inline" lang="ka">პორტფოლიო</span></a>
+        <a href="#process"><span lang="ru">Процесс</span><span class="ka-inline" lang="ka">პროცესი</span></a>
+        <a href="#why"><span lang="ru">Почему мы</span><span class="ka-inline" lang="ka">რატომ ჩვენ</span></a>
+        <a href="#contact"><span lang="ru">Контакты</span><span class="ka-inline" lang="ka">კონტაქტი</span></a>
+      </div>
+      <div class="footer-col">
+        <h4><span lang="ru">Контакты</span><span class="ka-inline" lang="ka">კონტაქტი</span></h4>
+        <a href="tel:+995555123456">+995 555 12 34 56</a>
+        <a href="https://wa.me/995555123456" target="_blank" rel="noopener">WhatsApp</a>
+        <a href="https://t.me/furnitur_production" target="_blank" rel="noopener">Telegram</a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <span class="stack"><span class="ru" lang="ru">© 2026 Furnitur Production. Мебель на заказ.</span><span class="ka" lang="ka">© 2026 Furnitur Production. ავეჯი შეკვეთით.</span></span>
+    <span class="stack"><span class="ru" lang="ru">Батуми и Махинджаури</span><span class="ka" lang="ka">ბათუმი და მახინჯაური</span></span>
+  </div>
+</footer>
+
+<div class="floating-actions">
+  <a class="fab" href="https://wa.me/995555123456" target="_blank" rel="noopener" aria-label="Написать в WhatsApp / WhatsApp-ში წერა">
+    <svg class="icon" viewBox="0 0 24 24" stroke="currentColor"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.55L4 20l1.02-4.46A8.5 8.5 0 1 1 21 11.5z"/><path d="M8.5 10.5c.3 2.5 2.5 4.7 5 5"/></svg>
+  </a>
+  <a class="fab" href="tel:+995555123456" aria-label="Позвонить / დარეკვა">
+    <svg class="icon" viewBox="0 0 24 24" stroke="currentColor"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 9 9 0 0 0 2.8.45 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A16 16 0 0 1 3 5a1 1 0 0 1 1-1h3.3a1 1 0 0 1 1 1 9 9 0 0 0 .45 2.8 1 1 0 0 1-.25 1z"/></svg>
+  </a>
+</div>
+
+<script>
+  var menuBtn = document.getElementById('menuBtn');
+  var mainNav = document.getElementById('mainNav');
+  menuBtn.addEventListener('click', function(){
+    var open = mainNav.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  mainNav.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){
+      mainNav.classList.remove('open');
+      menuBtn.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  var form = document.getElementById('requestForm');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var name = document.getElementById('f-name');
+    var phone = document.getElementById('f-phone');
+    var errName = document.getElementById('err-name');
+    var errPhone = document.getElementById('err-phone');
+    errName.textContent = '';
+    errPhone.textContent = '';
+    var ok = true;
+    if(!name.value.trim()){ errName.textContent = 'Укажите имя / მიუთითეთ სახელი'; ok = false; }
+    if(!phone.value.trim()){ errPhone.textContent = 'Укажите телефон / მიუთითეთ ტელეფონი'; ok = false; }
+    if(!ok) return;
+
+    var type = document.getElementById('f-type').value;
+    var comment = document.getElementById('f-comment').value.trim();
+    var text = 'Здравствуйте! Меня зовут ' + name.value.trim() + ', телефон ' + phone.value.trim() + '.\nИнтересует: ' + type + '.' + (comment ? ('\nКомментарий: ' + comment) : '');
+    var url = 'https://wa.me/995555123456?text=' + encodeURIComponent(text);
+    window.open(url, '_blank', 'noopener');
+  });
+
+  ['f-name','f-phone'].forEach(function(id){
+    document.getElementById(id).addEventListener('input', function(){
+      document.getElementById('err-' + id.slice(2)).textContent = '';
+    });
+  });
+</script>
+
+<script>
+(function(){
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var canvas = document.getElementById('heroShader');
+  if(!canvas || reduceMotion) return;
+  var gl = canvas.getContext('webgl', { antialias:false, alpha:true });
+  if(!gl) return;
+
+  var VERT = 'attribute vec2 a_position;\n' +
+    'void main(){ gl_Position = vec4(a_position, 0.0, 1.0); }';
+
+  var FRAG = '#ifdef GL_FRAGMENT_PRECISION_HIGH\nprecision highp float;\n#else\nprecision mediump float;\n#endif\n' +
+    'uniform vec3 u_colors[8];\n' +
+    'uniform vec4 u_scene; uniform vec4 u_shape; uniform vec4 u_surface; uniform vec4 u_finish; uniform vec4 u_transform; uniform vec4 u_space; uniform vec4 u_cursor;\n' +
+    '#define u_resolution u_scene.xy\n#define u_time u_scene.z\n#define u_colorCount u_scene.w\n' +
+    '#define u_scale u_shape.x\n#define u_intensity u_shape.y\n#define u_paramA u_shape.z\n#define u_warp u_shape.w\n' +
+    '#define u_detail u_surface.x\n#define u_contrast u_surface.y\n#define u_brightness u_surface.z\n#define u_saturation u_surface.w\n' +
+    '#define u_hue u_finish.x\n#define u_vignette u_finish.y\n#define u_blur u_finish.z\n#define u_grain u_finish.w\n' +
+    '#ifdef GL_FRAGMENT_PRECISION_HIGH\n#define u_seed u_transform.x\n#else\n#define u_seed mod(u_transform.x, 31.0)\n#endif\n' +
+    '#define u_rotate u_transform.y\n#define u_drift u_transform.z\n#define u_oklab u_transform.w\n' +
+    '#define u_offset u_space.xy\n#define u_mouse u_space.zw\n' +
+    '#define u_cursorPresence u_cursor.x\n#define u_cursorEffect u_cursor.y\n#define u_cursorStrength u_cursor.z\n#define u_cursorRadius u_cursor.w\n' +
+    'float hash21(vec2 p){\n#ifndef GL_FRAGMENT_PRECISION_HIGH\n  p = mod(p, 31.0);\n#endif\n  p = fract(p * vec2(234.34, 435.345)); p += dot(p, p + 34.23); return fract(p.x * p.y); }\n' +
+    'float grainHash(vec2 p){ vec3 p3 = fract(vec3(p.xyx) * 0.1031); p3 += dot(p3, p3.yzx + 33.33); return fract((p3.x + p3.y) * p3.z); }\n' +
+    'float noise(vec2 p){ vec2 i = floor(p); vec2 f = fract(p); vec2 u = f * f * (3.0 - 2.0 * f);\n' +
+    '  return mix(mix(hash21(i), hash21(i + vec2(1.0,0.0)), u.x), mix(hash21(i + vec2(0.0,1.0)), hash21(i + vec2(1.0,1.0)), u.x), u.y); }\n' +
+    'float fbm(vec2 p){ float v=0.0; float a=0.5; for(int i=0;i<5;i++){ v += a*noise(p); p = p*2.03 + vec2(17.0,9.2); a*=0.5; } return v; }\n' +
+    'vec3 srgbToLinear(vec3 c){ return mix(c/12.92, pow((c+0.055)/1.055, vec3(2.4)), step(0.04045, c)); }\n' +
+    'vec3 linearToSrgb(vec3 c){ return mix(c*12.92, 1.055*pow(max(c,vec3(0.0)), vec3(1.0/2.4)) - 0.055, step(0.0031308, c)); }\n' +
+    'vec3 linToOklab(vec3 c){ float l=0.4122214708*c.r+0.5363325363*c.g+0.0514459929*c.b; float m=0.2119034982*c.r+0.6806995451*c.g+0.1073969566*c.b; float s=0.0883024619*c.r+0.2817188376*c.g+0.6299787005*c.b;\n' +
+    '  l=pow(max(l,0.0),1.0/3.0); m=pow(max(m,0.0),1.0/3.0); s=pow(max(s,0.0),1.0/3.0);\n' +
+    '  return vec3(0.2104542553*l+0.7936177850*m-0.0040720468*s, 1.9779984951*l-2.4285922050*m+0.4505937099*s, 0.0259040371*l+0.7827717662*m-0.8086757660*s); }\n' +
+    'vec3 oklabToLin(vec3 c){ float l=c.x+0.3963377774*c.y+0.2158037573*c.z; float m=c.x-0.1055613458*c.y-0.0638541728*c.z; float s=c.x-0.0894841775*c.y-1.2914855480*c.z;\n' +
+    '  l=l*l*l; m=m*m*m; s=s*s*s;\n' +
+    '  return vec3(4.0767416621*l-3.3077115913*m+0.2309699292*s, -1.2684380046*l+2.6097574011*m-0.3413193965*s, -0.0041960863*l-0.7034186147*m+1.7076147010*s); }\n' +
+    'vec3 mixColour(vec3 a, vec3 b, float t){ if(u_oklab > 0.5){ vec3 la = linToOklab(srgbToLinear(a)); vec3 lb = linToOklab(srgbToLinear(b)); return clamp(linearToSrgb(oklabToLin(mix(la, lb, t))), 0.0, 1.0); } return mix(a, b, t); }\n' +
+    'vec3 palette(float x){ float n = max(u_colorCount - 1.0, 1.0); float f = clamp(x, 0.0, 1.0) * n; vec3 col = u_colors[0];\n' +
+    '  for(int i=0;i<7;i++){ if(float(i) < n) col = mixColour(col, u_colors[i+1], smoothstep(0.0, 1.0, clamp(f - float(i), 0.0, 1.0))); } return col; }\n' +
+    'vec3 hueRotate(vec3 col, float a){ const mat3 toYIQ = mat3(0.299,0.596,0.211, 0.587,-0.274,-0.523, 0.114,-0.322,0.312); const mat3 toRGB = mat3(1.0,1.0,1.0, 0.956,-0.272,-1.106, 0.621,-0.647,1.703);\n' +
+    '  vec3 yiq = toYIQ * col; float ca=cos(a), sa=sin(a); yiq = vec3(yiq.x, yiq.y*ca - yiq.z*sa, yiq.y*sa + yiq.z*ca); return toRGB * yiq; }\n' +
+    'vec3 shade(vec2 uv, vec2 p, float t){ vec2 q = p * 1.6; float amp = 0.25 + u_intensity * 0.85;\n' +
+    '  for(int i=1;i<5;i++){ float fi=float(i);\n' +
+    '    q.x += amp/fi * cos(fi*2.4*q.y + t*0.8 + u_seed);\n' +
+    '    q.y += amp/fi * cos(fi*1.7*q.x + t*0.6); }\n' +
+    '  return palette(0.5 + 0.5 * sin(q.x + q.y)); }\n' +
+    'void main(){\n' +
+    '  vec2 uv = gl_FragCoord.xy / u_resolution.xy; vec2 screenUv = uv;\n' +
+    '  vec2 p = (gl_FragCoord.xy - 0.5*u_resolution.xy) / min(u_resolution.x, u_resolution.y);\n' +
+    '  float cursorMask = 0.0;\n' +
+    '  if(u_cursorPresence > 0.001){\n' +
+    '    vec2 cursor = (0.5 * u_mouse * u_resolution.xy) / min(u_resolution.x, u_resolution.y);\n' +
+    '    vec2 cursorDelta = p - cursor;\n' +
+    '    if(u_cursorEffect < 0.5){ p += cursor * u_cursorPresence * u_cursorStrength * 0.55; }\n' +
+    '    else{ float cursorDistance = length(cursorDelta); vec2 cursorDirection = cursorDelta / max(cursorDistance, 0.0001);\n' +
+    '      cursorMask = u_cursorPresence * (1.0 - smoothstep(0.0, u_cursorRadius, cursorDistance));\n' +
+    '      if(u_cursorEffect < 1.5){ p -= cursorDirection * cursorMask * u_cursorStrength * 0.24; }\n' +
+    '      else if(u_cursorEffect < 2.5){ float cursorAngle = cursorMask * u_cursorStrength * 2.2; float cc=cos(cursorAngle), cs=sin(cursorAngle); p = cursor + mat2(cc,-cs,cs,cc) * cursorDelta; }\n' +
+    '      else if(u_cursorEffect < 3.5){ float ripple = sin(cursorDistance / max(u_cursorRadius, 0.001) * 18.0 - u_time * 5.0); p -= cursorDirection * ripple * cursorMask * u_cursorStrength * 0.07; } } }\n' +
+    '  uv = p * min(u_resolution.x, u_resolution.y) / u_resolution.xy + 0.5; p *= u_scale;\n' +
+    '  if(abs(u_rotate) > 0.0001){ float cr=cos(u_rotate), sr=sin(u_rotate); p = mat2(cr,-sr,sr,cr) * p; }\n' +
+    '  p += u_offset; if(u_drift > 0.0001) p += u_drift * vec2(sin(u_time*0.31), cos(u_time*0.23));\n' +
+    '  if(u_warp > 0.0){ p += u_warp * (vec2(fbm(p*u_detail + u_seed), fbm(p*u_detail + vec2(5.2,1.3))) - 0.5); }\n' +
+    '  vec3 col;\n' +
+    '  if(u_blur > 0.0){ float e=u_blur; float pe=e*u_scale; vec2 uvE = vec2(e) * min(u_resolution.x,u_resolution.y) / u_resolution.xy;\n' +
+    '    col  = shade(uv, p, u_time) * 0.36;\n' +
+    '    col += shade(uv + vec2(uvE.x,0.0), p + vec2(pe,0.0), u_time) * 0.16;\n' +
+    '    col += shade(uv - vec2(uvE.x,0.0), p - vec2(pe,0.0), u_time) * 0.16;\n' +
+    '    col += shade(uv + vec2(0.0,uvE.y), p + vec2(0.0,pe), u_time) * 0.16;\n' +
+    '    col += shade(uv - vec2(0.0,uvE.y), p - vec2(0.0,pe), u_time) * 0.16; }\n' +
+    '  else{ col = shade(uv, p, u_time); }\n' +
+    '  if(abs(u_contrast - 1.0) > 0.0001) col = (col - 0.5) * u_contrast + 0.5;\n' +
+    '  if(abs(u_saturation - 1.0) > 0.0001){ float luma = dot(col, vec3(0.299,0.587,0.114)); col = mix(vec3(luma), col, u_saturation); }\n' +
+    '  if(abs(u_hue) > 0.0001) col = hueRotate(col, u_hue);\n' +
+    '  if(abs(u_brightness) > 0.0001) col += u_brightness;\n' +
+    '  if(u_vignette > 0.0001){ float vd = length(screenUv - 0.5) * 1.41421356; col *= 1.0 - u_vignette * smoothstep(0.35, 1.0, vd); }\n' +
+    '  if(u_cursorPresence > 0.001 && u_cursorEffect > 3.5) col += (vec3(0.18) + col*0.12) * cursorMask * u_cursorStrength;\n' +
+    '  if(u_grain > 0.0001) col += (grainHash(gl_FragCoord.xy + vec2(u_seed*17.0, u_seed*31.0)) - 0.5) * u_grain;\n' +
+    '  gl_FragColor = vec4(clamp(col, 0.0, 1.0), 1.0); }';
+
+  var UNIFORMS = {
+    colorCount: 4, scale: 1.26, intensity: 0.32, paramA: 0.5, warp: 0.0,
+    detail: 1.824, contrast: 0.9, brightness: 0.0, saturation: 1.0,
+    hue: 0.0, vignette: 0.3, blur: 0.0, grain: 0.045,
+    seed: 1.0, rotate: 0.0, offsetX: 0.0, offsetY: 0.0, drift: 0.0,
+    cursorEnabled: false, cursorEffect: 2.0, cursorStrength: 0.65, cursorRadius: 0.46,
+    oklab: 1.0, timeScale: 0.4
+  };
+  var PALETTES = {
+    dark:  [[0.043,0.063,0.149],[0.239,0.275,0.910],[0.694,0.549,1.000],[1.000,0.839,0.906]],
+    light: [[0.882,0.882,0.973],[0.596,0.557,0.941],[0.376,0.353,0.851],[0.145,0.157,0.443]]
+  };
+
+  function compile(type, src){ var s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; }
+  var program = gl.createProgram();
+  var vertexShader = compile(gl.VERTEX_SHADER, VERT);
+  var fragmentShader = compile(gl.FRAGMENT_SHADER, FRAG);
+  gl.attachShader(program, vertexShader);
+  gl.attachShader(program, fragmentShader);
+  gl.linkProgram(program);
+  gl.deleteShader(vertexShader);
+  gl.deleteShader(fragmentShader);
+  if(!gl.getProgramParameter(program, gl.LINK_STATUS)) return;
+  gl.useProgram(program);
+
+  var buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+  var loc = gl.getAttribLocation(program, 'a_position');
+  gl.enableVertexAttribArray(loc);
+  gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+
+  var uni = {
+    colors: gl.getUniformLocation(program, 'u_colors'),
+    scene: gl.getUniformLocation(program, 'u_scene'),
+    shape: gl.getUniformLocation(program, 'u_shape'),
+    surface: gl.getUniformLocation(program, 'u_surface'),
+    finish: gl.getUniformLocation(program, 'u_finish'),
+    transform: gl.getUniformLocation(program, 'u_transform'),
+    space: gl.getUniformLocation(program, 'u_space'),
+    cursor: gl.getUniformLocation(program, 'u_cursor')
+  };
+
+  function isDark(){
+    var explicit = document.documentElement.getAttribute('data-theme');
+    if(explicit === 'dark') return true;
+    if(explicit === 'light') return false;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+  function applyPalette(){
+    var stops = isDark() ? PALETTES.dark : PALETTES.light;
+    var flat = new Float32Array(24);
+    for(var i=0;i<8;i++){
+      var c = stops[Math.min(i, stops.length - 1)];
+      flat[i*3] = c[0]; flat[i*3+1] = c[1]; flat[i*3+2] = c[2];
+    }
+    gl.uniform3fv(uni.colors, flat);
+  }
+  applyPalette();
+  if(window.matchMedia){
+    var mq = window.matchMedia('(prefers-color-scheme: dark)');
+    if(mq.addEventListener) mq.addEventListener('change', applyPalette);
+  }
+  new MutationObserver(applyPalette).observe(document.documentElement, { attributes:true, attributeFilter:['data-theme'] });
+
+  gl.uniform4f(uni.shape, UNIFORMS.scale, UNIFORMS.intensity, UNIFORMS.paramA, UNIFORMS.warp);
+  gl.uniform4f(uni.surface, UNIFORMS.detail, UNIFORMS.contrast, UNIFORMS.brightness, UNIFORMS.saturation);
+  gl.uniform4f(uni.finish, UNIFORMS.hue, UNIFORMS.vignette, UNIFORMS.blur, UNIFORMS.grain);
+  gl.uniform4f(uni.transform, UNIFORMS.seed, UNIFORMS.rotate, UNIFORMS.drift, UNIFORMS.oklab);
+  gl.uniform4f(uni.cursor, 0, UNIFORMS.cursorEffect, UNIFORMS.cursorStrength, UNIFORMS.cursorRadius);
+
+  var targetX=0, targetY=0, targetPresence=0, mouseX=0, mouseY=0, cursorPresence=0;
+  var pointerKnown=false, pointerClientX=0, pointerClientY=0;
+  var bounds = canvas.getBoundingClientRect();
+  var raf=0, lastNow=null, visible = document.visibilityState === 'visible', inView=true;
+  var start = performance.now();
+  var timeAnimated = Math.abs(UNIFORMS.timeScale) > 0.0001;
+
+  function resizeCanvas(){
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var rawWidth = Math.max(1, Math.round(bounds.width * dpr));
+    var rawHeight = Math.max(1, Math.round(bounds.height * dpr));
+    var pixelScale = Math.min(1, Math.sqrt(1400000 / Math.max(1, rawWidth * rawHeight)));
+    var width = Math.max(1, Math.round(rawWidth * pixelScale));
+    var height = Math.max(1, Math.round(rawHeight * pixelScale));
+    if(canvas.width !== width || canvas.height !== height){
+      canvas.width = width; canvas.height = height; gl.viewport(0,0,width,height);
+    }
+  }
+  function requestRender(){ if(visible && inView && raf === 0) raf = requestAnimationFrame(render); }
+  function updatePointerTarget(){
+    if(!pointerKnown || bounds.width === 0 || bounds.height === 0) return;
+    var inside = pointerClientX >= bounds.left && pointerClientX <= bounds.right && pointerClientY >= bounds.top && pointerClientY <= bounds.bottom;
+    if(!inside){ targetPresence = 0; requestRender(); return; }
+    var nextX = ((pointerClientX - bounds.left) / bounds.width) * 2 - 1;
+    var nextY = -(((pointerClientY - bounds.top) / bounds.height) * 2 - 1);
+    if(targetPresence === 0 && cursorPresence < 0.01){ mouseX = nextX; mouseY = nextY; }
+    targetX = nextX; targetY = nextY; targetPresence = 1; requestRender();
+  }
+  function onPointerMove(e){ pointerKnown=true; pointerClientX=e.clientX; pointerClientY=e.clientY; bounds = canvas.getBoundingClientRect(); updatePointerTarget(); }
+  function onPointerLeave(){ pointerKnown=false; targetPresence=0; requestRender(); }
+  function updateLayout(){ bounds = canvas.getBoundingClientRect(); resizeCanvas(); updatePointerTarget(); requestRender(); }
+
+  window.addEventListener('resize', updateLayout);
+  if(UNIFORMS.cursorEnabled){
+    window.addEventListener('pointermove', onPointerMove, { passive:true });
+    window.addEventListener('pointercancel', onPointerLeave);
+    window.addEventListener('scroll', updateLayout, true);
+    window.addEventListener('blur', onPointerLeave);
+    document.documentElement.addEventListener('pointerleave', onPointerLeave);
+  }
+  new ResizeObserver(updateLayout).observe(canvas);
+  new IntersectionObserver(function(entries){
+    var entry = entries[0];
+    inView = entry ? entry.isIntersecting : true;
+    if(inView) requestRender();
+    else if(raf !== 0){ cancelAnimationFrame(raf); raf=0; lastNow=null; }
+  }).observe(canvas);
+  document.addEventListener('visibilitychange', function(){
+    visible = document.visibilityState === 'visible';
+    if(visible) requestRender();
+    else if(raf !== 0){ cancelAnimationFrame(raf); raf=0; lastNow=null; }
+  });
+
+  function render(now){
+    raf = 0;
+    if(!visible || !inView) return;
+    var dt = lastNow === null ? 0 : Math.min((now - lastNow) / 1000, 0.1);
+    lastNow = now;
+    var follow = 1 - Math.exp(-12 * dt);
+    mouseX += (targetX - mouseX) * follow;
+    mouseY += (targetY - mouseY) * follow;
+    cursorPresence += (targetPresence - cursorPresence) * follow;
+    resizeCanvas();
+    gl.uniform4f(uni.scene, canvas.width, canvas.height, ((now - start) / 1000) * UNIFORMS.timeScale, UNIFORMS.colorCount);
+    gl.uniform4f(uni.space, UNIFORMS.offsetX, UNIFORMS.offsetY, mouseX, mouseY);
+    gl.uniform4f(uni.cursor, UNIFORMS.cursorEnabled ? cursorPresence : 0, UNIFORMS.cursorEffect, UNIFORMS.cursorStrength, UNIFORMS.cursorRadius);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+    var pointerSettling = Math.abs(targetX - mouseX) > 0.001 || Math.abs(targetY - mouseY) > 0.001 || Math.abs(targetPresence - cursorPresence) > 0.001;
+    if(timeAnimated || pointerSettling) requestRender(); else lastNow = null;
+  }
+  requestRender();
+})();
+</script>
