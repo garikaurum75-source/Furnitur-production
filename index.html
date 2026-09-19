@@ -86,7 +86,7 @@
     display:flex; align-items:center; justify-content:space-between; gap:1.5rem;
     padding:0.9rem 20px;
   }
-  .brand{font-family:var(--font-display); font-weight:700; font-size:1.28rem; letter-spacing:0.01em; text-decoration:none; color:var(--text-primary); display:flex; align-items:baseline; gap:0.55rem;}
+  .brand{white-space:nowrap; font-family:var(--font-display); font-weight:700; font-size:1.28rem; letter-spacing:0.01em; text-decoration:none; color:var(--text-primary); display:flex; align-items:baseline; gap:0.55rem;}
   .brand span{font-family:var(--font-body); font-weight:600; font-size:0.6rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--text-muted);}
   .brand span .ka-inline{font-family:var(--font-body-ka); text-transform:none;}
   nav.main-nav{display:flex; align-items:center; gap:1.8rem;}
@@ -95,9 +95,10 @@
   nav.main-nav a .ka-inline{font-family:var(--font-body-ka);}
   nav.main-nav a .ru-inline{font-weight:500; font-size:0.92em; color:var(--text-muted);}
   .header-actions{display:flex; align-items:center; gap:1rem;}
-  .header-phone{font-weight:700; font-size:0.88rem; text-decoration:none; color:var(--text-primary); display:none;}
+  .header-phone{white-space:nowrap; font-weight:700; font-size:0.88rem; text-decoration:none; color:var(--text-primary); display:none;}
   .menu-btn{display:none; background:none; border:1px solid var(--cta); border-radius:8px; width:40px; height:40px; align-items:center; justify-content:center; color:var(--cta); cursor:pointer;}
   @media (min-width:900px){ .header-phone{display:inline;} }
+  @media (min-width:901px) and (max-width:1180px){ .brand span{display:none;} nav.main-nav{gap:1.1rem;} }
   @media (max-width:900px){
     nav.main-nav{position:fixed; inset:60px 0 auto 0; background:var(--surface); border-bottom:0.5px solid var(--line); flex-direction:column; align-items:flex-start; gap:0; padding:0.5rem 20px 1rem; transform:translateY(-8px); opacity:0; pointer-events:none; transition:opacity .18s ease, transform .18s ease;}
     nav.main-nav.open{opacity:1; transform:translateY(0); pointer-events:auto;}
@@ -321,7 +322,7 @@
     <div class="hero-flag" aria-hidden="true">
       <svg class="flag-land" viewBox="0 0 300 200" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
       <rect width="300" height="200" fill="#fff" fill-opacity=".11"/>
-      <g fill="#e11d2a" fill-opacity=".4">
+      <g fill="#e11d2a" fill-opacity=".3">
         <rect x="130" width="40" height="200"/>
         <rect y="80" width="300" height="40"/>
         <path id="bcL" d="M-3.5-3.5L-8-20H8L3.5-3.5L20-8V8L3.5 3.5L8 20H-8L-3.5 3.5L-20 8V-8Z" transform="translate(65 40)"/>
@@ -333,7 +334,7 @@
       <svg class="flag-port" viewBox="0 0 200 300" preserveAspectRatio="xMidYMin meet" xmlns="http://www.w3.org/2000/svg">
         <g transform="translate(200 0) rotate(90)">
       <rect width="300" height="200" fill="#fff" fill-opacity=".11"/>
-      <g fill="#e11d2a" fill-opacity=".4">
+      <g fill="#e11d2a" fill-opacity=".3">
         <rect x="130" width="40" height="200"/>
         <rect y="80" width="300" height="40"/>
         <path id="bcP" d="M-3.5-3.5L-8-20H8L3.5-3.5L20-8V8L3.5 3.5L8 20H-8L-3.5 3.5L-20 8V-8Z" transform="translate(65 40)"/>
