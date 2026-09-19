@@ -576,12 +576,10 @@
           <div class="field">
             <label for="f-name"><span class="ka-inline" lang="ka">სახელი</span><span class="ru-inline" lang="ru">Имя</span></label>
             <input id="f-name" name="name" type="text" placeholder="როგორ მოგმართოთ / Как обращаться" autocomplete="name">
-            <span class="field-error" id="err-name"></span>
           </div>
           <div class="field">
             <label for="f-phone"><span class="ka-inline" lang="ka">ტელეფონი</span><span class="ru-inline" lang="ru">Телефон</span></label>
             <input id="f-phone" name="phone" type="tel" placeholder="+995 5__ __ __ __" autocomplete="tel">
-            <span class="field-error" id="err-phone"></span>
           </div>
         </div>
         <div class="field">
@@ -670,30 +668,20 @@
   var form = document.getElementById('requestForm');
   form.addEventListener('submit', function(e){
     e.preventDefault();
-    var name = document.getElementById('f-name');
-    var phone = document.getElementById('f-phone');
-    var errName = document.getElementById('err-name');
-    var errPhone = document.getElementById('err-phone');
-    errName.textContent = '';
-    errPhone.textContent = '';
-    var ok = true;
-    if(!name.value.trim()){ errName.textContent = 'მიუთითეთ სახელი / Укажите имя'; ok = false; }
-    if(!phone.value.trim()){ errPhone.textContent = 'მიუთითეთ ტელეფონი / Укажите телефон'; ok = false; }
-    if(!ok) return;
-
+    var n = document.getElementById('f-name').value.trim();
+    var p = document.getElementById('f-phone').value.trim();
     var type = document.getElementById('f-type').value;
     var comment = document.getElementById('f-comment').value.trim();
-    var n = name.value.trim(), p = phone.value.trim();
-    var text = 'გამარჯობა! მე მქვია ' + n + ', ტელეფონი ' + p + '.\nმაინტერესებს: ' + type + '.' + (comment ? ('\nკომენტარი: ' + comment) : '') +
-      '\n\nЗдравствуйте! Меня зовут ' + n + ', телефон ' + p + '.\nИнтересует: ' + type + '.' + (comment ? ('\nКомментарий: ' + comment) : '');
-    var url = 'https://wa.me/995555262326?text=' + encodeURIComponent(text);
-    window.open(url, '_blank', 'noopener');
-  });
-
-  ['f-name','f-phone'].forEach(function(id){
-    document.getElementById(id).addEventListener('input', function(){
-      document.getElementById('err-' + id.slice(2)).textContent = '';
-    });
+    var NL = String.fromCharCode(10);
+    var ka = 'გამარჯობა!' + (n ? ' მე მქვია ' + n + '.' : '') + (p ? ' ჩემი ტელეფონი: ' + p + '.' : '') + NL + 'მაინტერესებს: ' + type + '.' + (comment ? NL + 'კომენტარი: ' + comment : '');
+    var ru = 'Здравствуйте!' + (n ? ' Меня зовут ' + n + '.' : '') + (p ? ' Мой телефон: ' + p + '.' : '') + NL + 'Интересует: ' + type + '.' + (comment ? NL + 'Комментарий: ' + comment : '');
+    var a = document.createElement('a');
+    a.href = 'https://wa.me/995555262326?text=' + encodeURIComponent(ka + NL + NL + ru);
+    a.target = '_blank';
+    a.rel = 'noopener';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
   });
 </script>
 
