@@ -12,6 +12,7 @@
     --text-primary:#F3ECDF; --text-secondary:#B7AB94; --text-muted:#8A8070;
     --line:rgba(243,236,223,0.12); --line-strong:rgba(243,236,223,0.22);
     --accent:#CBA05C; --accent-strong:#E8C077; --on-accent:#1B1409;
+    --cta:#25D366; --cta-strong:#4BE58A; --on-cta:#04220F;
     --shadow:rgba(0,0,0,0.4);
     --danger:#E08A6B;
     --font-display:'Piazzolla',Georgia,'Times New Roman',serif;
@@ -65,10 +66,10 @@
   .btn-text{display:flex; flex-direction:column; line-height:1.25; align-items:flex-start;}
   .btn-text .ka-inline{font-family:var(--font-body-ka); font-size:0.78em; font-weight:600; opacity:0.85;}
   .btn:active{transform:scale(0.97);}
-  .btn-primary{background:var(--accent); color:var(--on-accent); border-color:var(--accent);}
-  .btn-primary:hover{background:var(--accent-strong); border-color:var(--accent-strong);}
-  .btn-ghost{background:transparent; color:var(--text-primary); border-color:var(--line-strong);}
-  .btn-ghost:hover{border-color:var(--accent); color:var(--accent-strong);}
+  .btn-primary{background:var(--cta); color:var(--on-cta); border-color:var(--cta);}
+  .btn-primary:hover{background:var(--cta-strong); border-color:var(--cta-strong);}
+  .btn-ghost{background:transparent; color:var(--cta); border-color:var(--cta);}
+  .btn-ghost:hover{background:color-mix(in srgb, var(--cta) 14%, transparent); color:var(--cta-strong); border-color:var(--cta-strong);}
   .btn svg{width:16px; height:16px; flex:none;}
 
   .icon{width:20px; height:20px; flex:none; stroke:currentColor; fill:none; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round;}
@@ -92,7 +93,7 @@
   nav.main-nav a .ka-inline{font-family:var(--font-body-ka); font-weight:500; font-size:0.92em; color:var(--text-muted);}
   .header-actions{display:flex; align-items:center; gap:1rem;}
   .header-phone{font-weight:700; font-size:0.88rem; text-decoration:none; color:var(--text-primary); display:none;}
-  .menu-btn{display:none; background:none; border:1px solid var(--line-strong); border-radius:8px; width:40px; height:40px; align-items:center; justify-content:center; color:var(--text-primary); cursor:pointer;}
+  .menu-btn{display:none; background:none; border:1px solid var(--cta); border-radius:8px; width:40px; height:40px; align-items:center; justify-content:center; color:var(--cta); cursor:pointer;}
   @media (min-width:900px){ .header-phone{display:inline;} }
   @media (max-width:900px){
     nav.main-nav{position:fixed; inset:60px 0 auto 0; background:var(--surface); border-bottom:0.5px solid var(--line); flex-direction:column; align-items:flex-start; gap:0; padding:0.5rem 20px 1rem; transform:translateY(-8px); opacity:0; pointer-events:none; transition:opacity .18s ease, transform .18s ease;}
@@ -204,7 +205,7 @@
   .contact-info .lede{margin-bottom:2rem;}
   .contact-line{display:flex; align-items:center; gap:0.8rem; padding-block:0.9rem; border-top:0.5px solid var(--line); text-decoration:none; color:var(--text-primary);}
   .contact-line:last-of-type{border-bottom:0.5px solid var(--line);}
-  .contact-line .icon-wrap{width:38px; height:38px; border-radius:9px; background:var(--surface-2); display:flex; align-items:center; justify-content:center; color:var(--accent-strong); flex:none;}
+  .contact-line .icon-wrap{width:38px; height:38px; border-radius:9px; background:var(--surface-2); display:flex; align-items:center; justify-content:center; color:var(--cta); flex:none;}
   .contact-line .txt b{display:block; font-size:0.95rem;}
   .contact-line .txt .sub{display:block; font-size:0.8rem; color:var(--text-muted); margin-top:0.15rem;}
   .contact-line .txt .sub .ka-inline{font-family:var(--font-body-ka);}
@@ -247,23 +248,23 @@
 
   /* floating actions */
   .floating-actions{position:fixed; right:20px; bottom:76px; display:flex; flex-direction:column; gap:0.7rem; z-index:50;}
-  .fab{position:relative; width:52px; height:52px; border-radius:50%; background:var(--accent); color:var(--on-accent); display:flex; align-items:center; justify-content:center; text-decoration:none; box-shadow:0 10px 24px -8px var(--shadow); border:1px solid var(--accent-strong); transition:transform .15s ease, background .15s ease;}
-  .fab:hover{background:var(--accent-strong); transform:translateY(-2px);}
+  .fab{position:relative; width:52px; height:52px; border-radius:50%; background:var(--cta); color:var(--on-cta); display:flex; align-items:center; justify-content:center; text-decoration:none; box-shadow:0 10px 24px -8px var(--shadow); border:1px solid var(--cta-strong); transition:transform .15s ease, background .15s ease;}
+  .fab:hover{background:var(--cta-strong); transform:translateY(-2px);}
   .fab .icon{width:22px; height:22px;}
 
   .btn-pulse{position:relative;}
   .fab::after, .btn-pulse::after{
     content:""; position:absolute; inset:0; border-radius:inherit;
-    box-shadow:0 0 0 0 color-mix(in srgb, var(--accent-strong) 50%, transparent);
+    box-shadow:0 0 0 0 color-mix(in srgb, var(--cta-strong) 50%, transparent);
     animation:ctaPulse 2.1s ease-out infinite;
     pointer-events:none;
   }
   .fab:hover::after, .btn-pulse:hover::after{animation-play-state:paused; opacity:0;}
 
   @keyframes ctaPulse{
-    0%{box-shadow:0 0 0 0 color-mix(in srgb, var(--accent-strong) 85%, transparent), 0 0 0 0 color-mix(in srgb, var(--accent-strong) 50%, transparent);}
-    50%{box-shadow:0 0 0 14px color-mix(in srgb, var(--accent-strong) 0%, transparent), 0 0 0 26px color-mix(in srgb, var(--accent-strong) 0%, transparent);}
-    100%{box-shadow:0 0 0 14px color-mix(in srgb, var(--accent-strong) 0%, transparent), 0 0 0 26px color-mix(in srgb, var(--accent-strong) 0%, transparent);}
+    0%{box-shadow:0 0 0 0 color-mix(in srgb, var(--cta-strong) 85%, transparent), 0 0 0 0 color-mix(in srgb, var(--cta-strong) 50%, transparent);}
+    50%{box-shadow:0 0 0 14px color-mix(in srgb, var(--cta-strong) 0%, transparent), 0 0 0 26px color-mix(in srgb, var(--cta-strong) 0%, transparent);}
+    100%{box-shadow:0 0 0 14px color-mix(in srgb, var(--cta-strong) 0%, transparent), 0 0 0 26px color-mix(in srgb, var(--cta-strong) 0%, transparent);}
   }
   @media (prefers-reduced-motion: reduce){
     .fab::after, .btn-pulse::after{animation:none; display:none;}
@@ -285,8 +286,8 @@
       <a href="#contact"><span lang="ru">Контакты</span><span class="ka-inline" lang="ka">კონტაქტი</span></a>
     </nav>
     <div class="header-actions">
-      <a class="header-phone" href="tel:+995555123456">+995 555 12 34 56</a>
-      <a class="btn btn-primary btn-pulse" href="#contact">
+      <a class="header-phone" href="tel:+995555262326">+995 555 26 23 26</a>
+      <a class="btn btn-primary btn-pulse" href="https://wa.me/995555262326?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BE%D1%81%D1%82%D0%B0%D0%B2%D0%B8%D1%82%D1%8C%20%D0%B7%D0%B0%D1%8F%D0%B2%D0%BA%D1%83%20%D0%BD%D0%B0%20%D0%B7%D0%B0%D0%BC%D0%B5%D1%80.%0A%E1%83%92%E1%83%90%E1%83%9B%E1%83%90%E1%83%A0%E1%83%AF%E1%83%9D%E1%83%91%E1%83%90!%20%E1%83%9B%E1%83%98%E1%83%9C%E1%83%93%E1%83%90%20%E1%83%92%E1%83%90%E1%83%96%E1%83%9D%E1%83%9B%E1%83%95%E1%83%98%E1%83%A1%20%E1%83%A8%E1%83%94%E1%83%99%E1%83%95%E1%83%94%E1%83%97%E1%83%90." target="_blank" rel="noopener">
         <span class="btn-text"><span lang="ru">Оставить заявку</span><span class="ka-inline" lang="ka">განაცხადის დატოვება</span></span>
       </a>
       <button class="menu-btn" id="menuBtn" aria-label="Открыть меню / მენიუს გახსნა" aria-expanded="false">
@@ -316,7 +317,7 @@
           <span class="ka" lang="ka">ვაპროექტებთ, ვაწარმოებთ და ვამონტაჟებთ სამზარეულოებს, გარდერობებს, დერეფნის და სახლის ავეჯს — პირველი გაზომვიდან მონტაჟამდე, ნახაზსა და საამქროს შორის შუამავლების გარეშე.</span>
         </p>
         <div class="hero-ctas">
-          <a class="btn btn-primary btn-pulse" href="#contact">
+          <a class="btn btn-primary btn-pulse" href="https://wa.me/995555262326?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BE%D1%81%D1%82%D0%B0%D0%B2%D0%B8%D1%82%D1%8C%20%D0%B7%D0%B0%D1%8F%D0%B2%D0%BA%D1%83%20%D0%BD%D0%B0%20%D0%B7%D0%B0%D0%BC%D0%B5%D1%80.%0A%E1%83%92%E1%83%90%E1%83%9B%E1%83%90%E1%83%A0%E1%83%AF%E1%83%9D%E1%83%91%E1%83%90!%20%E1%83%9B%E1%83%98%E1%83%9C%E1%83%93%E1%83%90%20%E1%83%92%E1%83%90%E1%83%96%E1%83%9D%E1%83%9B%E1%83%95%E1%83%98%E1%83%A1%20%E1%83%A8%E1%83%94%E1%83%99%E1%83%95%E1%83%94%E1%83%97%E1%83%90." target="_blank" rel="noopener">
             <span class="btn-text"><span lang="ru">Оставить заявку на замер</span><span class="ka-inline" lang="ka">გაზომვის შეკვეთა</span></span>
             <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
@@ -545,11 +546,11 @@
         <h2><span class="ru" lang="ru">Обсудим ваш проект</span><span class="ka" lang="ka">განვიხილოთ თქვენი პროექტი</span></h2>
         <p class="lede"><span class="ru" lang="ru">Оставьте номер — перезвоним в течение часа. Или напишите сразу в мессенджер, так тоже быстро ответим.</span><span class="ka" lang="ka">დატოვეთ ნომერი — გადმოგირეკავთ ერთი საათის განმავლობაში. ან მოგვწერეთ პირდაპირ მესენჯერში.</span></p>
 
-        <a class="contact-line" href="tel:+995555123456">
+        <a class="contact-line" href="tel:+995555262326">
           <span class="icon-wrap"><svg class="icon" viewBox="0 0 24 24"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 9 9 0 0 0 2.8.45 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A16 16 0 0 1 3 5a1 1 0 0 1 1-1h3.3a1 1 0 0 1 1 1 9 9 0 0 0 .45 2.8 1 1 0 0 1-.25 1z"/></svg></span>
-          <span class="txt"><b>+995 555 12 34 56</b><span class="sub"><span lang="ru">Ежедневно, 9:00–21:00</span><span class="slash">/</span><span class="ka-inline" lang="ka">ყოველდღე, 9:00–21:00</span></span></span>
+          <span class="txt"><b>+995 555 26 23 26</b><span class="sub"><span lang="ru">Ежедневно, 9:00–21:00</span><span class="slash">/</span><span class="ka-inline" lang="ka">ყოველდღე, 9:00–21:00</span></span></span>
         </a>
-        <a class="contact-line" href="https://wa.me/995555123456" target="_blank" rel="noopener">
+        <a class="contact-line" href="https://wa.me/995555262326" target="_blank" rel="noopener">
           <span class="icon-wrap"><svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.55L4 20l1.02-4.46A8.5 8.5 0 1 1 21 11.5z"/><path d="M8.5 10.5c.3 2.5 2.5 4.7 5 5"/></svg></span>
           <span class="txt"><b>WhatsApp</b><span class="sub"><span lang="ru">Ответим в течение часа</span><span class="slash">/</span><span class="ka-inline" lang="ka">პასუხს გავცემთ ერთ საათში</span></span></span>
         </a>
@@ -572,7 +573,7 @@
           </div>
           <div class="field">
             <label for="f-phone"><span lang="ru">Телефон</span><span class="ka-inline" lang="ka">ტელეფონი</span></label>
-            <input id="f-phone" name="phone" type="tel" placeholder="+7 ___ ___-__-__" autocomplete="tel">
+            <input id="f-phone" name="phone" type="tel" placeholder="+995 5__ __ __ __" autocomplete="tel">
             <span class="field-error" id="err-phone"></span>
           </div>
         </div>
@@ -625,8 +626,8 @@
       </div>
       <div class="footer-col">
         <h4><span lang="ru">Контакты</span><span class="ka-inline" lang="ka">კონტაქტი</span></h4>
-        <a href="tel:+995555123456">+995 555 12 34 56</a>
-        <a href="https://wa.me/995555123456" target="_blank" rel="noopener">WhatsApp</a>
+        <a href="tel:+995555262326">+995 555 26 23 26</a>
+        <a href="https://wa.me/995555262326" target="_blank" rel="noopener">WhatsApp</a>
         <a href="https://t.me/furnitur_production" target="_blank" rel="noopener">Telegram</a>
       </div>
     </div>
@@ -638,10 +639,10 @@
 </footer>
 
 <div class="floating-actions">
-  <a class="fab" href="https://wa.me/995555123456" target="_blank" rel="noopener" aria-label="Написать в WhatsApp / WhatsApp-ში წერა">
+  <a class="fab" href="https://wa.me/995555262326" target="_blank" rel="noopener" aria-label="Написать в WhatsApp / WhatsApp-ში წერა">
     <svg class="icon" viewBox="0 0 24 24" stroke="currentColor"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.55L4 20l1.02-4.46A8.5 8.5 0 1 1 21 11.5z"/><path d="M8.5 10.5c.3 2.5 2.5 4.7 5 5"/></svg>
   </a>
-  <a class="fab" href="tel:+995555123456" aria-label="Позвонить / დარეკვა">
+  <a class="fab" href="tel:+995555262326" aria-label="Позвонить / დარეკვა">
     <svg class="icon" viewBox="0 0 24 24" stroke="currentColor"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 9 9 0 0 0 2.8.45 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A16 16 0 0 1 3 5a1 1 0 0 1 1-1h3.3a1 1 0 0 1 1 1 9 9 0 0 0 .45 2.8 1 1 0 0 1-.25 1z"/></svg>
   </a>
 </div>
@@ -677,7 +678,7 @@
     var type = document.getElementById('f-type').value;
     var comment = document.getElementById('f-comment').value.trim();
     var text = 'Здравствуйте! Меня зовут ' + name.value.trim() + ', телефон ' + phone.value.trim() + '.\nИнтересует: ' + type + '.' + (comment ? ('\nКомментарий: ' + comment) : '');
-    var url = 'https://wa.me/995555123456?text=' + encodeURIComponent(text);
+    var url = 'https://wa.me/995555262326?text=' + encodeURIComponent(text);
     window.open(url, '_blank', 'noopener');
   });
 
