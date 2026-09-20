@@ -132,6 +132,8 @@
   .hero{position:relative; padding-top:3.2rem; padding-bottom:3.2rem;}
   .hero-shader{position:absolute; inset:0; z-index:0; width:100%; height:100%; display:block; pointer-events:none;}
   .hero-veil{position:absolute; inset:0; z-index:1; background:color-mix(in srgb, var(--bg) 66%, transparent); pointer-events:none;}
+  .hero .lede .ru, .hero .eyebrow .ru{color:#D9CFBC;}
+  .hero-fineprint .ru-inline, .hero-fineprint{color:#CFC5B0;}
   .hero-grid{position:relative; z-index:2; display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,0.95fr); gap:3rem; align-items:center;}
   @media (max-width:940px){ .hero-grid{grid-template-columns:minmax(0,1fr); gap:2.2rem;} }
   .hero-copy .eyebrow{margin-bottom:1.1rem; display:block;}
@@ -804,14 +806,14 @@
     '  gl_FragColor = vec4(clamp(col, 0.0, 1.0), 1.0); }';
 
   var UNIFORMS = {
-    colorCount: 4, scale: 1.26, intensity: 0.32, paramA: 0.5, warp: 0.0,
+    colorCount: 5, scale: 1.26, intensity: 0.32, paramA: 0.5, warp: 0.0,
     detail: 1.824, contrast: 0.9, brightness: 0.0, saturation: 1.0,
     hue: 0.0, vignette: 0.3, blur: 0.0, grain: 0.045,
     seed: 1.0, rotate: 0.0, offsetX: 0.0, offsetY: 0.0, drift: 0.0,
     cursorEnabled: false, cursorEffect: 2.0, cursorStrength: 0.65, cursorRadius: 0.46,
     oklab: 1.0, timeScale: 0.4
   };
-  var PALETTE_DARK = [[0.030,0.050,0.160],[0.120,0.320,0.950],[0.900,0.110,0.160],[0.980,0.350,0.300]];
+  var PALETTE_DARK = [[0.040,0.120,0.550],[0.140,0.360,0.980],[0.900,0.110,0.160],[0.140,0.360,0.980],[0.040,0.120,0.550]];
 
   function compile(type, src){ var s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; }
   var program = gl.createProgram();
