@@ -89,13 +89,13 @@
   .flag-badge{width:57px; height:38px; flex:none; align-self:center; display:block; border:1px solid rgba(27,23,18,0.22); border-radius:3px;}
   @media (max-width:560px){ .flag-badge{width:45px; height:30px;} }
   .site-header .wrap{
-    display:flex; align-items:center; justify-content:space-between; gap:1.5rem;
+    display:flex; align-items:center; justify-content:space-between; gap:1rem;
     padding:0.9rem 20px;
   }
   .brand{white-space:nowrap; font-family:var(--font-display); font-weight:700; font-size:1.28rem; letter-spacing:0.01em; text-decoration:none; color:var(--text-primary); display:flex; align-items:baseline; gap:0.55rem;}
   .brand span{font-family:var(--font-body); font-weight:600; font-size:0.6rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--text-muted);}
   .brand span .ka-inline{font-family:var(--font-body-ka); text-transform:none;}
-  nav.main-nav{display:flex; align-items:center; gap:1.8rem;}
+  nav.main-nav{display:flex; align-items:center; gap:1.4rem;}
   nav.main-nav a{font-size:0.86rem; font-weight:600; text-decoration:none; color:var(--text-secondary); transition:color .15s ease; display:flex; align-items:baseline; gap:0.35em;}
   nav.main-nav a:hover{color:var(--accent-strong);}
   nav.main-nav a .ka-inline{font-family:var(--font-body-ka);}
@@ -104,7 +104,15 @@
   .header-phone{white-space:nowrap; font-weight:700; font-size:0.88rem; text-decoration:none; color:var(--text-primary); display:none;}
   .menu-btn{display:none; background:none; border:1px solid var(--cta); border-radius:8px; width:40px; height:40px; align-items:center; justify-content:center; color:var(--cta); cursor:pointer;}
   @media (min-width:900px){ .header-phone{display:inline;} }
-  @media (min-width:901px) and (max-width:1180px){ .brand span{display:none;} nav.main-nav{gap:1.1rem;} }
+  .site-header .brand{display:grid; grid-template-columns:auto auto; column-gap:0.6rem; align-items:center; justify-content:start;}
+  .site-header .brand .flag-badge{grid-row:1 / span 2;}
+  .site-header .brand span{line-height:1.2; margin-top:-2px;}
+  @media (min-width:901px){
+    nav.main-nav a{flex-direction:column; align-items:flex-start; gap:0; line-height:1.25;}
+    nav.main-nav a .ru-inline{font-size:0.8em;}
+  }
+  @media (min-width:901px) and (max-width:1240px){ .brand span{display:none;} }
+  @media (min-width:901px) and (max-width:1100px){ .header-phone{display:none;} }
   @media (max-width:900px){
     nav.main-nav{position:fixed; inset:60px 0 auto 0; background:var(--surface); border-bottom:0.5px solid var(--line); flex-direction:column; align-items:flex-start; gap:0; padding:0.5rem 20px 1rem; transform:translateY(-8px); opacity:0; pointer-events:none; transition:opacity .18s ease, transform .18s ease;}
     nav.main-nav.open{opacity:1; transform:translateY(0); pointer-events:auto;}
