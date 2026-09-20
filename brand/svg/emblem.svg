@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="200" height="200" role="img" aria-label="Furnitur Production">
-  <title>Furnitur Production</title>
-  <polygon points="40,40 30,4 70,4 60,40" fill="#7A4B2A"/>
-  <polygon points="60,40 96,30 96,70 60,60" fill="#D2A857"/>
-  <polygon points="60,60 70,96 30,96 40,60" fill="#7A4B2A"/>
-  <polygon points="40,60 4,70 4,30 40,40" fill="#D2A857"/>
-  <rect x="40" y="40" width="20" height="20" fill="#E4141B"/>
-  <g stroke="#000" stroke-opacity=".22" stroke-width="1" stroke-linecap="round" fill="none"><line x1="46" y1="40" x2="39" y2="7"/><line x1="60" y1="46" x2="93" y2="39"/><line x1="46" y1="60" x2="39" y2="93"/><line x1="40" y1="46" x2="7" y2="39"/><line x1="54" y1="40" x2="61" y2="7"/><line x1="60" y1="54" x2="93" y2="61"/><line x1="54" y1="60" x2="61" y2="93"/><line x1="40" y1="54" x2="7" y2="61"/></g>
-</svg>
